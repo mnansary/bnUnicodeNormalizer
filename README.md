@@ -1,0 +1,2 @@
+# bnUnicodeNormalizer
+Bangla Unicode Normalization
