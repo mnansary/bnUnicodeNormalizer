@@ -80,6 +80,15 @@ class TestWordCleaner(unittest.TestCase):
         self.assertEqual(norm('সং্যুক্তি'),"সংযুক্তি")
         # Ending
         self.assertEqual(norm("অজানা্"),"অজানা")
+        #--------------------------------------------- insert your assertions here----------------------------------------
+        '''
+            ###  case: give a comment about your case
+            ## (a) invalid text==(b) valid text <---- an example of your case
+            self.assertEqual(norm(invalid text),expected output)
+                        or
+            self.assertEqual(ennorm(invalid text),expected output) <----- for including english text
+            
+        '''
         
     def test_types(self):
         '''

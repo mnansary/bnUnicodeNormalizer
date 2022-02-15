@@ -175,6 +175,43 @@ Also Normalizes 'এ' and 'ত্র'
     *  invalid text
     *  expected valid text
     *  why is the output expected 
+    *  clone the repository
+    *  add a test case in **tests/test_normalizer.py** after **line no:91**
+
+    ```python
+        # Dummy Non-Bangla,Numbers and Space cases/ Invalid start end cases
+        # english
+        self.assertEqual(norm('ASD1234'),None)
+        self.assertEqual(ennorm('ASD1234'),'ASD1234')
+        # random
+        self.assertEqual(norm('িত'),'ত')
+        self.assertEqual(norm('সং্যুক্তি'),"সংযুক্তি")
+        # Ending
+        self.assertEqual(norm("অজানা্"),"অজানা")
+        #--------------------------------------------- insert your assertions here----------------------------------------
+        '''
+            ###  case: give a comment about your case
+            ## (a) invalid text==(b) valid text <---- an example of your case
+            self.assertEqual(norm(invalid text),expected output)
+                        or
+            self.assertEqual(ennorm(invalid text),expected output) <----- for including english text
+            
+        '''
+        # your case goes here
+    ```
+    * perform the unit testing
+    * make sure the unit test fails under true conditions    
 
 # ABOUT US
 * Authors: [Bengali.AI](https://bengali.ai/)
+* **Cite Bengali.AI multipurpose grapheme dataset paper**
+```bibtext
+@inproceedings{alam2021large,
+  title={A large multi-target dataset of common bengali handwritten graphemes},
+  author={Alam, Samiul and Reasat, Tahsin and Sushmit, Asif Shahriyar and Siddique, Sadi Mohammad and Rahman, Fuad and Hasan, Mahady and Humayun, Ahmed Imtiaz},
+  booktitle={International Conference on Document Analysis and Recognition},
+  pages={383--398},
+  year={2021},
+  organization={Springer}
+}
+```
