@@ -1,0 +1,12 @@
+Change Log
+===========
+
+0.0.1 (15/02/2022)
+-------------------
+- First Release
+
+0.0.2 (15/02/2022)
+-------------------
+- added unit test
+- word based to text based
+- added basic doc
