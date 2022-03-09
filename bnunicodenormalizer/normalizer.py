@@ -15,7 +15,8 @@ op_map=["InvalidEnds",
         "InvalidToAndHosonto",
         "DoubleVowelDiacritics",
         "VowelDiacriticsComingAfterVowelsAndModifiers",
-        "InvalidMultipleConsonantDiacritics"]
+        "InvalidMultipleConsonantDiacritics",
+        "BrokenDiacritics"]
         
 class english:
     lower                  =    ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"]
@@ -469,9 +470,11 @@ class Normalizer(object):
         # None-flag
         self.return_none = False
         
-        
+        tracks=[]
         # replace Diacritics
         self.__replaceDiacritics()
+        if self.word!=text:
+            tracks.append({"operaion":op_map[-1],"before":text,"after":self.word})
         # create clean decomp
         self.__createDecomp()
         # check return
@@ -492,7 +495,7 @@ class Normalizer(object):
              self.__reconstructDecomp]
         
         
-        tracks=[]
+        
 
         for idx,op in enumerate(ops):
             

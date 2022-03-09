@@ -5,3 +5,7 @@ Change Log
 -------------------
 - added details for execution map
 - checkop typo correction
+
+0.0.6 (9/03/2022)
+-------------------
+- broken diacritics op addition
