@@ -6,6 +6,17 @@ from __future__ import print_function
 #-------------------------------------------
 # cleaner class
 #-------------------------------------------
+
+
+op_map=["InvalidEnds",
+        "InvalidStarts",
+        "NuktaUnicode",
+        "InvalidHosonto",
+        "InvalidToAndHosonto",
+        "DoubleVowelDiacritics",
+        "VowelDiacriticsComingAfterVowelsAndModifiers",
+        "InvalidMultipleConsonantDiacritics"]
+        
 class english:
     lower                  =    ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"]
     upper                  =    ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
@@ -438,7 +449,7 @@ class Normalizer(object):
         # reform
         self.decomp=[x for x in self.decomp if x is not None] 
         # check length
-        if not self.__checkDecomp:
+        if not self.__checkDecomp():
             self.return_none=True
         # return op success
         if self.return_none:
@@ -446,7 +457,7 @@ class Normalizer(object):
         else:
             return True
     
-    def __call__(self,text):
+    def __call__(self,text,details=False):
         '''
             normalizes a given text
         '''
@@ -480,10 +491,23 @@ class Normalizer(object):
              self.__cleanInvalidMultipleConsonantDiacritics,
              self.__reconstructDecomp]
         
+        
+        tracks=[]
 
-        for op in ops:
+        for idx,op in enumerate(ops):
+            
+            word_before_op="".join(self.decomp)
+
             if not self.__checkOp(op):
                 print(f"log:normalized text can not be formed for {text}")
                 return None
-        
-        return self.word
+            
+            word_after_op="".join(self.decomp)
+
+            if details:
+                if word_before_op!=word_after_op:
+                    tracks.append({"operaion":op_map[idx],"before":word_before_op,"after":word_after_op})
+        if details:
+            return {"normalized":self.word,"given":text,"ops":tracks}
+        else:
+            return self.word

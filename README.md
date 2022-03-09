@@ -34,6 +34,38 @@ print("with english:",norm("ASD 123"))
 
 > with english: ASD 123
 
+* extracting details
+
+```python
+from pprint import pprint
+# normalize with details
+text='াটোবাকো গ্র্রামকে উুলু'
+details=bnorm(text,details=True)
+pprint(details)
+```
+
+```
+{'given': 'াটোবাকো গ্র্রামকে উুলু',
+ 'normalized': 'টোবাকো গ্রামকে উলু',
+ 'ops': [{'after': 'টোবাকো গ্র্রামকে উুলু',
+          'before': 'াটোবাকো গ্র্রামকে উুলু',
+          'operaion': 'InvalidStarts'},
+         {'after': 'টোবাকো গ্র্রামকে উলু',
+          'before': 'টোবাকো গ্র্রামকে উুলু',
+          'operaion': 'VowelDiacriticsComingAfterVowelsAndModifiers'},
+         {'after': 'টোবাকো গ্রামকে উলু',
+          'before': 'টোবাকো গ্র্রামকে উলু',
+          'operaion': 'InvalidMultipleConsonantDiacritics'}]}
+```
+**In the case of  extracting details**: a dictionary is returned where- 
+* "given" = provided text
+* "normalized = normalized texr
+* "ops" = list of operations (dictionary) that were executed in given text to create normalized text
+*  each dictionary in ops has:
+    * "operation": the name of the operation / problem in given text
+    * "before" : what the text looked like before the specific operation
+    * "after"  : what the text looks like after the specific operation   
+
 # Cases
 
 **In all examples (a) is the non-normalized form and (b) is the normalized form**

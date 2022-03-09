@@ -1,17 +1,7 @@
 Change Log
 ===========
 
-0.0.1 (15/02/2022)
+0.0.5 (9/03/2022)
 -------------------
-- First Release
-
-0.0.2 (15/02/2022)
--------------------
-- added unit test
-- word based to text based
-- added basic doc
-
-0.0.3 (15/02/2022)
--------------------
-- added issue handling
-- added citation
+- added details for execution map
+- checkop typo correction
