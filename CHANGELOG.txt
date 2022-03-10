@@ -23,3 +23,4 @@ Change Log
 - NonGylphUnicodes
 - Legacy symbols option
 - legacy mapper added 
+- added bn:bd declaration

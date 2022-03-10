@@ -50,9 +50,10 @@ class Normalizer(object):
                 legacy_maps=default_legacy_maps):
 
         '''
+            initialize a normalizer
             args:
-                allow_english                   :   allow english letters numbers and punctuations (will be changed based on number and punctuation including)[default:False]
-                keep_legacy_symbols             :   legacy symbols will be considered as valid unicode[default:False]
+                allow_english                   :   allow english letters numbers and punctuations [default:False]
+                keep_legacy_symbols             :   legacy symbols will be considered as valid unicodes[default:False]
                                                     '৺':Isshar 
                                                     '৻':Ganda
                                                     'ঀ':Anji (not '৭')
@@ -67,7 +68,7 @@ class Normalizer(object):
                                                     '৷':currency numerator 4
                                                     '৸':currency numerator one less than the denominator
                                                     '৹':Currency Denominator Sixteen
-                legacy_maps                     :   a dictionay for changing legacy symbols into a more used version of unicode 
+                legacy_maps                     :   a dictionay for changing legacy symbols into a more used  unicode 
                                                     default_legacy_maps={'ঀ':'৭',
                                                                         'ঌ':'৯',
                                                                         'ৡ':'৯',
@@ -75,23 +76,22 @@ class Normalizer(object):
                                                                         '৻':'ৎ',
                                                                         'ৠ':'ঋ',
                                                                         'ঽ':'ই'}
-                                                    > the default maps 'key' unicodes in the dict (such as 'ঀ') looks very close to the 'value' (such as '৭')
                                                     
-                                                    * you can pass  
-                                                        * legacy_maps=None for keeping the legacy symbols as they are
-                                                        * legacy_maps=custom dictionary which will map your desired legacy symbol to any of symbol you want
-                                                            * the keys in the custiom dicts must belong to any of the legacy symbols
-                                                            * the values in the custiom dicts must belong to either vowels,consonants of numbers  
-                                                            vowels         =   ['অ', 'আ', 'ই', 'ঈ', 'উ', 'ঊ', 'ঋ', 'এ', 'ঐ', 'ও', 'ঔ']
-                                                            consonants     =   ['ক', 'খ', 'গ', 'ঘ', 'ঙ', 'চ', 'ছ','জ', 'ঝ', 'ঞ', 
-                                                                                'ট', 'ঠ', 'ড', 'ঢ', 'ণ', 'ত', 'থ', 'দ', 'ধ', 'ন', 
-                                                                                'প', 'ফ', 'ব', 'ভ', 'ম', 'য', 'র', 'ল', 'শ', 'ষ', 
-                                                                                'স', 'হ','ড়', 'ঢ়', 'য়','ৎ']    
-                                                            numbers        =    ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯']
-                                                            > for example you may want to map 'ঽ':Avagraha as 'হ' based on visual similiarity 
-                                                              (default:'ই')
+                                                    pass-   
+                                                    * legacy_maps=None for keeping the legacy symbols as they are
+                                                    * legacy_maps=custom dictionary which will map your desired legacy symbol to any of symbol you want
+                                                        * the keys in the custiom dicts must belong to any of the legacy symbols
+                                                        * the values in the custiom dicts must belong to either vowels,consonants of numbers  
+                                                        vowels         =   ['অ', 'আ', 'ই', 'ঈ', 'উ', 'ঊ', 'ঋ', 'এ', 'ঐ', 'ও', 'ঔ']
+                                                        consonants     =   ['ক', 'খ', 'গ', 'ঘ', 'ঙ', 'চ', 'ছ','জ', 'ঝ', 'ঞ', 
+                                                                            'ট', 'ঠ', 'ড', 'ঢ', 'ণ', 'ত', 'থ', 'দ', 'ধ', 'ন', 
+                                                                            'প', 'ফ', 'ব', 'ভ', 'ম', 'য', 'র', 'ল', 'শ', 'ষ', 
+                                                                            'স', 'হ','ড়', 'ঢ়', 'য়','ৎ']    
+                                                        numbers        =    ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯']
+                                                        > for example you may want to map 'ঽ':Avagraha as 'হ' based on visual similiarity 
+                                                            (default:'ই')
 
-                ** legacy contions: keep_legacy_symbols and legacy_maps operates as the follows 
+                ** legacy contions: keep_legacy_symbols and legacy_maps operates as follows 
                     case-1) keep_legacy_symbols=True and legacy_maps=None
                         : all legacy symbols will be considered valid unicodes. None of them will be changed
                     case-2) keep_legacy_symbols=True and legacy_maps=valid dictionary example:{'ঀ':'ক'}
@@ -100,11 +100,6 @@ class Normalizer(object):
                         : all legacy symbols will be removed
                     case-4) keep_legacy_symbols=False and legacy_maps=valid dictionary example:{'ঽ':'ই','ৠ':'ঋ'}
                         : 'ঽ' will be changed to 'ই' and 'ৠ' will be changed to 'ঋ'. All other legacy symbols will be removed
-                    
-                        
-                    
-                         
-
         '''
         # components    
         '''
@@ -122,12 +117,12 @@ class Normalizer(object):
         # special charecters
         self.nukta                  =   '়'
         self.hosonto                =   '্'
-        self.special_charecters     =   [self.nukta,self.hosonto,'\u200d','\u200c',' ','৳']
+        self.special_charecters     =   [self.nukta,self.hosonto,'\u200d','\u200c',' ']
         
         self.numbers                =    ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯']
         self.punctuations           =    ['!', '"', '#', '$', '%', '&', "'", '(', ')', '*', '+', ',', '-', '.', 
                                         '/', ':', ';', '<', '=', '>', '?', '@', '[', '\\', ']', '^', '_', '`',
-                                        '{', '|', '}', '~', '।']
+                                        '{', '|', '}', '~', '।','৳']
             
         self.non_gylph_unicodes     =['\u0984', '\u098d','\u098e','\u0991','\u0992','\u09a9','\u09b1','\u09b3','\u09b4','\u09b5',
                                     '\u09ba','\u09bb', '\u09c5','\u09c6','\u09c9','\u09ca','\u09cf','\u09d0','\u09d1','\u09d2',
