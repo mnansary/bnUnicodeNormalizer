@@ -183,10 +183,6 @@ Also Normalizes 'এ' and 'ত্র'
 (a)একএে==(b)একত্রে-->False
     (a) breaks as ['এ', 'ক', 'এ', 'ে']
     (b) breaks as ['এ', 'ক', 'ত', '্', 'র', 'ে']
-# Example-2:
-(a)একএ==(b)একত্র-->False
-    (a) breaks as ['এ', 'ক', 'এ']
-    (b) breaks as ['এ', 'ক', 'ত', '্', 'র']
 ```             
 * Repeated consonant diacritics (folas)
 ```
@@ -247,3 +243,7 @@ Also Normalizes 'এ' and 'ত্র'
   organization={Springer}
 }
 ```
+
+# TODO
+- [] update readme for v7
+- [] create code doc

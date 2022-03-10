@@ -9,3 +9,17 @@ Change Log
 0.0.6 (9/03/2022)
 -------------------
 - broken diacritics op addition
+
+0.0.7 (11/03/2022)
+-------------------
+- assemese replacement
+- word op and unicode op mapping
+- modifier list modification
+- doc string for call and initialization
+- verbosity removal
+- typo correction for operation
+- unit test updates
+- 'এ' replacement correction
+- NonGylphUnicodes
+- Legacy symbols option
+- legacy mapper added 

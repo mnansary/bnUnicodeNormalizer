@@ -4,19 +4,23 @@
 """
 from __future__ import print_function
 #-------------------------------------------
-# cleaner class
+# globals
 #-------------------------------------------
 
-
-op_map=["InvalidEnds",
+op_map=["NonGylphUnicodes",
+        "InvalidUnicodes",
+        "InvalidEnds",
         "InvalidStarts",
         "NuktaUnicode",
         "InvalidHosonto",
         "InvalidToAndHosonto",
         "DoubleVowelDiacritics",
         "VowelDiacriticsComingAfterVowelsAndModifiers",
-        "InvalidMultipleConsonantDiacritics",
-        "BrokenDiacritics"]
+        "InvalidMultipleConsonantDiacritics"]
+
+word_op_map=["MapLegacySymbols",
+             "NormalizeAssamese", 
+             "BrokenDiacritics"]
         
 class english:
     lower                  =    ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"]
@@ -26,47 +30,134 @@ class english:
                                 '{', '|', '}', '~']
     numbers                =    ["0","1","2","3","4","5","6","7","8","9"]
     valid                    =    sorted(lower+upper+numbers+punctuations)
-    
+
+default_legacy_maps={'ঀ':'৭',
+                    'ঌ':'৯',
+                    'ৡ':'৯',
+                    '৵':'৯',
+                    '৻':'ৎ',
+                    'ৠ':'ঋ',
+                    'ঽ':'ই'}
+
+#-------------------------------------------
+# cleaner class
+#-------------------------------------------
+
 class Normalizer(object):
     def __init__(self,
-                use_english=False):
+                allow_english=False,
+                keep_legacy_symbols=False,
+                legacy_maps=default_legacy_maps):
 
         '''
             args:
-                use_english     :   allow english letters numbers and punctuations (will be changed based on number and punctuation including)
+                allow_english                   :   allow english letters numbers and punctuations (will be changed based on number and punctuation including)[default:False]
+                keep_legacy_symbols             :   legacy symbols will be considered as valid unicode[default:False]
+                                                    '৺':Isshar 
+                                                    '৻':Ganda
+                                                    'ঀ':Anji (not '৭')
+                                                    'ঌ':li
+                                                    'ৡ':dirgho li
+                                                    'ঽ':Avagraha
+                                                    'ৠ':Vocalic Rr (not 'ঋ')
+                                                    '৲':rupi
+                                                    '৴':currency numerator 1
+                                                    '৵':currency numerator 2
+                                                    '৶':currency numerator 3
+                                                    '৷':currency numerator 4
+                                                    '৸':currency numerator one less than the denominator
+                                                    '৹':Currency Denominator Sixteen
+                legacy_maps                     :   a dictionay for changing legacy symbols into a more used version of unicode 
+                                                    default_legacy_maps={'ঀ':'৭',
+                                                                        'ঌ':'৯',
+                                                                        'ৡ':'৯',
+                                                                        '৵':'৯',
+                                                                        '৻':'ৎ',
+                                                                        'ৠ':'ঋ',
+                                                                        'ঽ':'ই'}
+                                                    > the default maps 'key' unicodes in the dict (such as 'ঀ') looks very close to the 'value' (such as '৭')
+                                                    
+                                                    * you can pass  
+                                                        * legacy_maps=None for keeping the legacy symbols as they are
+                                                        * legacy_maps=custom dictionary which will map your desired legacy symbol to any of symbol you want
+                                                            * the keys in the custiom dicts must belong to any of the legacy symbols
+                                                            * the values in the custiom dicts must belong to either vowels,consonants of numbers  
+                                                            vowels         =   ['অ', 'আ', 'ই', 'ঈ', 'উ', 'ঊ', 'ঋ', 'এ', 'ঐ', 'ও', 'ঔ']
+                                                            consonants     =   ['ক', 'খ', 'গ', 'ঘ', 'ঙ', 'চ', 'ছ','জ', 'ঝ', 'ঞ', 
+                                                                                'ট', 'ঠ', 'ড', 'ঢ', 'ণ', 'ত', 'থ', 'দ', 'ধ', 'ন', 
+                                                                                'প', 'ফ', 'ব', 'ভ', 'ম', 'য', 'র', 'ল', 'শ', 'ষ', 
+                                                                                'স', 'হ','ড়', 'ঢ়', 'য়','ৎ']    
+                                                            numbers        =    ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯']
+                                                            > for example you may want to map 'ঽ':Avagraha as 'হ' based on visual similiarity 
+                                                              (default:'ই')
+
+                ** legacy contions: keep_legacy_symbols and legacy_maps operates as the follows 
+                    case-1) keep_legacy_symbols=True and legacy_maps=None
+                        : all legacy symbols will be considered valid unicodes. None of them will be changed
+                    case-2) keep_legacy_symbols=True and legacy_maps=valid dictionary example:{'ঀ':'ক'}
+                        : all legacy symbols will be considered valid unicodes. Only 'ঀ' will be changed to 'ক' , others will be untouched
+                    case-3) keep_legacy_symbols=False and legacy_maps=None
+                        : all legacy symbols will be removed
+                    case-4) keep_legacy_symbols=False and legacy_maps=valid dictionary example:{'ঽ':'ই','ৠ':'ঋ'}
+                        : 'ঽ' will be changed to 'ই' and 'ৠ' will be changed to 'ঋ'. All other legacy symbols will be removed
+                    
+                        
+                    
+                         
+
         '''
         # components    
         '''
             this division of vowel, consonant and modifier is done according to :https://bn.wikipedia.org/wiki/%E0%A7%8E 
         '''
         self.vowels                 =   ['অ', 'আ', 'ই', 'ঈ', 'উ', 'ঊ', 'ঋ', 'এ', 'ঐ', 'ও', 'ঔ']
-        self.consonants             =   ['ক', 'খ', 'গ', 'ঘ', 'ঙ', 
-                                         'চ', 'ছ','জ', 'ঝ', 'ঞ', 
-                                         'ট', 'ঠ', 'ড', 'ঢ', 'ণ', 
-                                         'ত', 'থ', 'দ', 'ধ', 'ন', 
-                                         'প', 'ফ', 'ব', 'ভ', 'ম', 
-                                         'য', 'র', 'ল', 'শ', 'ষ', 
-                                         'স', 'হ','ড়', 'ঢ়', 'য়']
-        self.modifiers              =   ['ঁ', 'ং', 'ঃ','ৎ']
+        self.consonants             =   ['ক', 'খ', 'গ', 'ঘ', 'ঙ', 'চ', 'ছ','জ', 'ঝ', 'ঞ', 
+                                         'ট', 'ঠ', 'ড', 'ঢ', 'ণ', 'ত', 'থ', 'দ', 'ধ', 'ন', 
+                                         'প', 'ফ', 'ব', 'ভ', 'ম', 'য', 'র', 'ল', 'শ', 'ষ', 
+                                         'স', 'হ','ড়', 'ঢ়', 'য়','ৎ']
+        self.modifiers              =   ['ঁ', 'ং', 'ঃ']
         # diacritics
         self.vowel_diacritics       =   ['া', 'ি', 'ী', 'ু', 'ূ', 'ৃ', 'ে', 'ৈ', 'ো', 'ৌ']
         self.consonant_diacritics   =   ['ঁ', 'র্', 'র্য', '্য', '্র', '্র্য', 'র্্র']
         # special charecters
         self.nukta                  =   '়'
         self.hosonto                =   '্'
-        self.special_charecters     =   [self.nukta,self.hosonto,'\u200d','\u200c',' ']
+        self.special_charecters     =   [self.nukta,self.hosonto,'\u200d','\u200c',' ','৳']
         
         self.numbers                =    ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯']
         self.punctuations           =    ['!', '"', '#', '$', '%', '&', "'", '(', ')', '*', '+', ',', '-', '.', 
                                         '/', ':', ';', '<', '=', '>', '?', '@', '[', '\\', ']', '^', '_', '`',
                                         '{', '|', '}', '~', '।']
             
-
+        self.non_gylph_unicodes     =['\u0984', '\u098d','\u098e','\u0991','\u0992','\u09a9','\u09b1','\u09b3','\u09b4','\u09b5',
+                                    '\u09ba','\u09bb', '\u09c5','\u09c6','\u09c9','\u09ca','\u09cf','\u09d0','\u09d1','\u09d2',
+                                    '\u09d3','\u09d4','\u09d5','\u09d6', '\u09d8','\u09d9','\u09da','\u09db','\u09de', '\u09e4',
+                                    '\u09e5', 'ৼ','৽','৾','\u09ff']
+        
+        self.legacy_symbols         = ['৺','৻','ঀ','ঌ','ৡ','ঽ','ৠ','৲','৴','৵','৶','৷','৸','৹']
         # all valid unicode charecters
         self.valid_unicodes         =   self.vowels+self.consonants+self.modifiers+self.vowel_diacritics+self.special_charecters+self.numbers+self.punctuations 
-        if use_english:
-            self.valid_unicodes=sorted(list(set(self.valid_unicodes+english.valid)))
         
+        # error handling
+        assert type(allow_english)==bool,"allow_english is not of type boolean [True/False]"
+        assert type(keep_legacy_symbols)==bool,"keep_legacy_symbols is not of type boolean [True/False]"
+        
+        if legacy_maps is not None:
+            assert type(legacy_maps)==dict,"legacy_maps is not of type dict or None"
+            assert len(legacy_maps.keys())>0,"legacy_maps is an empty dict"
+            for k,v in legacy_maps.items():
+                assert k in self.legacy_symbols,f"{k} is not a legacy symbol.See README.md initialization section for legacy symbols"
+                assert v in self.vowels+self.consonants+self.numbers,f"{v} is not a valid legacy map.See README.md initialization section for legacy symbols"
+                
+        self.legacy_maps=legacy_maps
+
+        
+        #------------------------- update valid unicodes-----------------------------------
+        if allow_english:
+            self.valid_unicodes=sorted(list(set(self.valid_unicodes+english.valid)))
+        if keep_legacy_symbols:
+            self.valid_unicodes=sorted(list(set(self.valid_unicodes+self.legacy_symbols)))
+
         '''
             some cases to handle
         '''
@@ -106,7 +197,23 @@ class Normalizer(object):
  
         '''
         self.valid_consonants_after_to_and_hosonto      =       ['ত','থ','ন','ব','ম','য','র'] 
-       
+#-------------------------word ops----------------------------------------------------------------------------- 
+    def __mapLegacySymbols(self):
+        if self.legacy_maps is not None:
+            for k,v in self.legacy_maps.items():
+                self.word=self.word.replace(k,v)
+
+
+    def __replaceAssamese(self):
+        '''
+            case: Assamese  normalization 
+                'ৰ'-->'র'
+                'ৱ'-->'ব'            
+        '''
+        self.word = self.word.replace('ৰ','র')
+        self.word = self.word.replace('ৱ','ব')
+        
+        
 
     def __replaceDiacritics(self):
         '''
@@ -135,15 +242,7 @@ class Normalizer(object):
         self.word = self.word.replace('অ'+ 'া','আ')
         # unicode normalization of 'ৄ'-> 'ৃ'
         self.word = self.word.replace('ৄ','ৃ')
-        
-    def __createDecomp(self):
-        '''
-            create list of valid unicodes
-        '''
-        self.decomp=[ch for ch in self.word if ch in self.valid_unicodes]
-        if not self.__checkDecomp():
-            self.return_none=True
-
+#-------------------------base ops-----------------------------------------------------------------------------   
     def __checkDecomp(self):
         '''
             checks if the decomp has a valid length
@@ -153,7 +252,33 @@ class Normalizer(object):
         else:
             return False
 
-            
+    def __reconstructDecomp(self):
+        '''
+            reconstructs the word from decomp
+        '''
+        self.decomp=[x for x in self.decomp if x is not None] 
+        self.word=''
+        for ch in self.decomp:
+            self.word+=ch 
+
+#-------------------------unicode ops-----------------------------------------------------------------------------               
+    def __cleanNonGylphUnicodes(self):
+        '''
+            cleans unicodes that are non gylphs
+        '''
+        try:
+            for idx,d in enumerate(self.decomp):
+                if d in self.non_gylph_unicodes:
+                    self.decomp[idx]=None         
+        except Exception as e:
+            pass
+    def __cleanInvalidUnicodes(self):
+        try:
+            for idx,d in enumerate(self.decomp):
+                if d not in self.valid_unicodes:
+                    self.decomp[idx]=None         
+        except Exception as e:
+            pass
 
     def __cleanInvalidEnds(self):
         '''
@@ -377,17 +502,13 @@ class Normalizer(object):
             (a)একএে==(b)একত্রে-->False
                 (a) breaks as ['এ', 'ক', 'এ', 'ে']
                 (b) breaks as ['এ', 'ক', 'ত', '্', 'র', 'ে']
-            # Example-2:
-            (a)একএ==(b)একত্র-->False
-                (a) breaks as ['এ', 'ক', 'এ']
-                (b) breaks as ['এ', 'ক', 'ত', '্', 'র']
                 
         '''
         try:
             # THE WIERDEST THING I HAVE SEEN
             for idx,d in enumerate(self.decomp):
                 # single case 
-                if d=='এ' and idx>0:
+                if d=='এ' and idx>0 and idx<len(self.decomp)-1 and self.decomp[idx+1] in self.vowel_diacritics:
                     self.decomp[idx]='ত'+'্'+'র'
             self.decomp=[ch for ch in self.decomp]
             '''
@@ -430,61 +551,47 @@ class Normalizer(object):
             pass
     
   
-    def __reconstructDecomp(self):
-        '''
-            reconstructs the word from decomp
-        '''
-        self.decomp=[x for x in self.decomp if x is not None] 
-        self.word=''
-        for ch in self.decomp:
-            self.word+=ch 
-
-    def __checkOp(self,op):
-        '''
-            execute an operation with  checking and None return
-            args:
-                opname : the function to execute
-        '''
-        # execute
-        op()
-        # reform
-        self.decomp=[x for x in self.decomp if x is not None] 
-        # check length
-        if not self.__checkDecomp():
-            self.return_none=True
-        # return op success
-        if self.return_none:
-            return False
-        else:
-            return True
-    
-    def __call__(self,text,details=False):
+#----------------------entry-----------------------------------------------------------------------    
+    def __call__(self,text):
         '''
             normalizes a given text
+            args:
+                text    : the string to normalize
+            returns: 
+                a dictionary- 
+                * "given" = provided text
+                * "normalized = normalized text (gives None if during the operation length of the text becomes 0)
+                * "ops" = list of operations (dictionary) that were executed in given text to create normalized text
+                *  each dictionary in ops has:
+                    * "operation": the name of the operation / problem in given text
+                    * "before" : what the text looked like before the specific operation
+                    * "after"  : what the text looks like after the specific operation   
         '''
+        details=[]
+        
         if not isinstance(text, str):
-            raise TypeError("The provided argument/ word is not a string") 
-        
-        
+            raise TypeError("The provided argument/ word is not a string")     
         self.word=text
         # None-flag
         self.return_none = False
+        #---------------------------------------------word ops-------------------------
+        wops=[self.__mapLegacySymbols,
+              self.__replaceDiacritics,
+              self.__replaceAssamese]
         
-        tracks=[]
-        # replace Diacritics
-        self.__replaceDiacritics()
-        if self.word!=text:
-            tracks.append({"operaion":op_map[-1],"before":text,"after":self.word})
-        # create clean decomp
-        self.__createDecomp()
-        # check return
-        if self.return_none:
-            print(f"log:normalized text can not be formed for {text}")
-            return None
-        
-
+        for idx,op in enumerate(wops):
+            word_before_op=self.word[:]
+            op()
+            word_after_op=self.word[:]
+            if word_before_op!=word_after_op:
+                details.append({"operation":word_op_map[idx],"before":word_before_op,"after":word_after_op})
+        #---------------------------------------------word ops-------------------------    
+        self.decomp=[ch for ch in self.word]
+        #---------------------------------------------unicode ops-------------------------    
         # list of operations
-        ops=[self.__cleanInvalidEnds,
+        ops=[self.__cleanNonGylphUnicodes,
+             self.__cleanInvalidUnicodes,
+             self.__cleanInvalidEnds,
              self.__cleanInvalidStarts,
              self.__cleanNuktaUnicode,
              self.__cleanInvalidHosonto,
@@ -495,22 +602,19 @@ class Normalizer(object):
              self.__reconstructDecomp]
         
         
-        
-
         for idx,op in enumerate(ops):
-            
             word_before_op="".join(self.decomp)
-
-            if not self.__checkOp(op):
-                print(f"log:normalized text can not be formed for {text}")
-                return None
-            
+            # execute
+            op()
+            # reform
+            self.decomp=[x for x in self.decomp if x is not None] 
             word_after_op="".join(self.decomp)
-
-            if details:
-                if word_before_op!=word_after_op:
-                    tracks.append({"operaion":op_map[idx],"before":word_before_op,"after":word_after_op})
-        if details:
-            return {"normalized":self.word,"given":text,"ops":tracks}
-        else:
-            return self.word
+            if word_before_op!=word_after_op:
+                details.append({"operation":op_map[idx],"before":word_before_op,"after":word_after_op})
+        
+            # check length
+            if not self.__checkDecomp():
+                return {"normalized":None,"given":text,"ops":details}
+                
+        return {"normalized":self.word,"given":text,"ops":details}
+        
