@@ -25,9 +25,8 @@ word_op_map=["MapLegacySymbols",
 class english:
     lower                  =    ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"]
     upper                  =    ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
-    punctuations           =    ['!', '"', '#', '$', '%', '&', "'", '(', ')', '*', '+', ',', '-', '.', 
-                                '/', ':', ';', '<', '=', '>', '?', '@', '[', '\\', ']', '^', '_', '`',
-                                '{', '|', '}', '~']
+    punctuations           =    ['!', '"', '#', '$', '%', '&', "'", '(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?', 
+                                 '@', '[', '\\', ']', '^', '_', '`','{', '|', '}', '~']
     numbers                =    ["0","1","2","3","4","5","6","7","8","9"]
     valid                    =    sorted(lower+upper+numbers+punctuations)
 
@@ -110,7 +109,7 @@ class Normalizer(object):
                                          'ট', 'ঠ', 'ড', 'ঢ', 'ণ', 'ত', 'থ', 'দ', 'ধ', 'ন', 
                                          'প', 'ফ', 'ব', 'ভ', 'ম', 'য', 'র', 'ল', 'শ', 'ষ', 
                                          'স', 'হ','ড়', 'ঢ়', 'য়','ৎ']
-        self.modifiers              =   ['ঁ', 'ং', 'ঃ']
+        self.modifiers              =   ['ঁ', 'ং', 'ঃ','ৎ']
         # diacritics
         self.vowel_diacritics       =   ['া', 'ি', 'ী', 'ু', 'ূ', 'ৃ', 'ে', 'ৈ', 'ো', 'ৌ']
         self.consonant_diacritics   =   ['ঁ', 'র্', 'র্য', '্য', '্র', '্র্য', 'র্্র']
@@ -131,7 +130,9 @@ class Normalizer(object):
         
         self.legacy_symbols         = ['৺','৻','ঀ','ঌ','ৡ','ঽ','ৠ','৲','৴','৵','৶','৷','৸','৹']
         # all valid unicode charecters
-        self.valid_unicodes         =   self.vowels+self.consonants+self.modifiers+self.vowel_diacritics+self.special_charecters+self.numbers+self.punctuations 
+        self.valid_unicodes         =   list(set(self.vowels+self.consonants+self.modifiers+\
+                                                self.vowel_diacritics+self.special_charecters+\
+                                                self.numbers+self.punctuations)) 
         
         # error handling
         assert type(allow_english)==bool,"allow_english is not of type boolean [True/False]"
@@ -167,16 +168,13 @@ class Normalizer(object):
         
         # invalid hosonto cases
         '''
-            a hosonto can not come before:
+            a hosonto can not be sorrounded by:
                 * the vowels
                 * another hosonto [double consecutive hosonto]
-            a hosonto can not come after:
-                * the vowels
                 * the modifiers
-                * another hosonto [double consecutive hosonto] 
+                * vowel diacritics 
         '''
-        self.invalid_unicodes_after_hosonto     =       self.vowels+[self.hosonto]
-        self.invalid_unicodes_before_hosonto    =       self.vowels+self.modifiers+[self.hosonto]
+        self.invalid_unicodes_hosonto    =       [self.hosonto]+self.vowels+self.modifiers+self.vowel_diacritics 
         
         
         
@@ -380,23 +378,16 @@ class Normalizer(object):
         '''
         try:
             for idx,d in enumerate(self.decomp):
-                if d==self.hosonto:
-                    check=False
-                    # before case 
-                    if self.decomp[idx-1] in self.invalid_unicodes_before_hosonto and self.decomp[idx+1]!='য':
-                        check=True    
-                    # after case
-                    elif self.decomp[idx+1] in self.invalid_unicodes_after_hosonto:
-                        check=True
-                    # if the hosonto is in between two vowel diacritics
-                    elif self.decomp[idx-1] in self.vowel_diacritics or self.decomp[idx+1] in self.vowel_diacritics:
-                        check=True
-                    # if the hosonto is after modifier
-                    elif self.decomp[idx-1] in self.modifiers:
-                        check=True
-                    
-                    if check:
+                if d==self.hosonto: 
+                    if self.decomp[idx-1] in self.vowels and self.decomp[idx+1]!='য':# jo-fola only exception
                         self.decomp[idx]=None
+                    elif self.decomp[idx-1] in self.invalid_unicodes_hosonto or self.decomp[idx+1] in self.invalid_unicodes_hosonto:
+                        self.decomp[idx]=None 
+            for idx,d in enumerate(self.decomp):
+                if d=='য' and self.decomp[idx+1]==self.hosonto and self.decomp[idx+2] not in ["র","য"]:
+                    self.decomp[idx+1]=None
+
+               
         except Exception as e:
             pass                     
     
@@ -435,7 +426,13 @@ class Normalizer(object):
                             if self.decomp[idx+4]=='র':
                                 # delete
                                 self.decomp[idx+3]=None
-                            
+            
+            for idx,d in enumerate(self.decomp):
+                if d=='ৎ' and self.decomp[idx+1] in self.vowel_diacritics:
+                        _vd=self.decomp[idx+1]
+                        self.decomp[idx+1]=self.decomp[idx]
+                        self.decomp[idx]=_vd
+                                
         except Exception as e:
             pass
             
@@ -535,12 +532,33 @@ class Normalizer(object):
         '''
         try:
             for idx,d in enumerate(self.decomp):
-                # if the current one is hosonto and the next one is within ['ব','য','র'] 
-                if  d==self.hosonto  and self.decomp[idx+1] in ['ব','য','র']:
+                # case-1: x,'্','র','্',y ; x!='র'
+                if  d==self.hosonto  and self.decomp[idx+1]=='র' and self.decomp[idx-1]!='র' and self.decomp[idx+2]==self.hosonto:
+                    if self.decomp[idx+3]=='র': # remove double '্''র'  
+                        self.decomp[idx]=None
+                        self.decomp[idx+1]=None
+                    elif self.decomp[idx+3]=='য়':# typing mistake
+                        self.decomp[idx+3]='য'
+                    elif self.decomp[idx+3]!='য':# swap places
+                        _char= self.decomp[idx+3]
+                        self.decomp[idx+3]=self.decomp[idx+1]
+                        self.decomp[idx+1]=_char
+
+                elif d==self.hosonto and self.decomp[idx+1] in ['ব','য']:
                     _pair=self.decomp[idx+1]
                     if self.decomp[idx+2]==self.hosonto and self.decomp[idx+3]==_pair:
                         self.decomp[idx]=None
                         self.decomp[idx+1]=None
+                    elif d==self.hosonto and self.decomp[idx+1]=='য' and self.decomp[idx+2]==self.hosonto and self.decomp[idx+3]=='র':
+                        _char= self.decomp[idx+3]
+                        self.decomp[idx+3]=self.decomp[idx+1]
+                        self.decomp[idx+1]=_char
+
+                elif d==self.hosonto and self.decomp[idx-1]=='র' and self.decomp[idx+1]=='র' and self.decomp[idx+2]==self.hosonto:
+                    self.decomp[idx-1]=None
+                    self.decomp[idx]=None
+                
+                
             
         except Exception as e:
             pass

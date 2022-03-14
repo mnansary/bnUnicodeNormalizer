@@ -24,3 +24,9 @@ Change Log
 - Legacy symbols option
 - legacy mapper added 
 - added bn:bd declaration
+
+0.0.8 (14/03/2022)
+-------------------
+- MultipleConsonantDiacritics handling change
+- to+hosonto correction
+- invalid hosonto correction 

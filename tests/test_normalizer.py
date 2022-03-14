@@ -64,6 +64,10 @@ class TestWordCleaner(unittest.TestCase):
         self.assertEqual(norm('উত্স')["normalized"],'উৎস')
         ## স্নাতকোত্ত্তর
         self.assertEqual(norm('স্নাতকোত্ত্তর')["normalized"],'স্নাতকোৎত্তর')
+        ## বিদ্য্ৎু
+        self.assertEqual(norm('বিদ্য্ৎু')["normalized"],'বিদ্যুৎ')
+        
+        
         
         
         ### case: multiple folas
