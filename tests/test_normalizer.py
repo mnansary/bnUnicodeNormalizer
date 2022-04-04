@@ -66,6 +66,9 @@ class TestWordCleaner(unittest.TestCase):
         self.assertEqual(norm('স্নাতকোত্ত্তর')["normalized"],'স্নাতকোৎত্তর')
         ## বিদ্য্ৎু
         self.assertEqual(norm('বিদ্য্ৎু')["normalized"],'বিদ্যুৎ')
+        ## 'ভর্ৎসনা'
+        self.assertEqual(norm('ভর্ৎসনা')["normalized"],'ভরৎসনা')
+        
         
         
         
