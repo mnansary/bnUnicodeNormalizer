@@ -75,6 +75,9 @@ class TestWordCleaner(unittest.TestCase):
         
         ### case: multiple folas
         self.assertEqual(norm('ন্দ্ব্ব্ব্ব্ব')["normalized"],'ন্দ্ব')
+
+        ### case: complex roots
+        self.assertEqual(norm('আকাক্ক্ঙ্ষা')["normalized"],'আকাক্কঙষা')
         
 
         # Dummy Non-Bangla,Numbers and Space cases/ Invalid start end cases
@@ -86,6 +89,7 @@ class TestWordCleaner(unittest.TestCase):
         self.assertEqual(norm('সং্যুক্তি')["normalized"],"সংযুক্তি")
         # Ending
         self.assertEqual(norm("অজানা্")["normalized"],"অজানা")
+
         #--------------------------------------------- insert your assertions here----------------------------------------
         '''
             ###  case: give a comment about your case

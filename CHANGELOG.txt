@@ -31,8 +31,9 @@ Change Log
 - to+hosonto correction
 - invalid hosonto correction 
 
-0.0.9 (04/04/2022)
+0.0.9 (15/04/2022)
 -------------------
 - base normalizer
 - language class
-- bangla extension 
+- bangla extension
+- complex root normalization 

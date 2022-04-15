@@ -32,6 +32,8 @@ class BaseNormalizer(object):
         assert type(allow_english)==bool,"allow_english is not of type boolean [True/False]"
         assert type(keep_legacy_symbols)==bool,"keep_legacy_symbols is not of type boolean [True/False]"
 
+        self.lang           =   languages[language]
+        
         if legacy_maps is not None:
             assert type(legacy_maps)==dict,"legacy_maps is not of type dict or None"
             assert len(legacy_maps.keys())>0,"legacy_maps is an empty dict"
@@ -39,7 +41,6 @@ class BaseNormalizer(object):
                 assert k in self.lang.legacy_symbols,f"{k} is not a legacy symbol.See README.md initialization section for legacy symbols"
                 assert v in self.lang.used,f"{v} is not a valid legacy map.See README.md initialization section for legacy symbols"
         # assignments  
-        self.lang           =   languages[language]
         self.valid          =   self.lang.valid
         self.roots          =   self.lang.complex_roots
         self.legacy_maps    =   legacy_maps

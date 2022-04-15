@@ -3,7 +3,6 @@
 @author:Bengali.AI
 """
 from __future__ import print_function
-from tkinter.messagebox import NO
 #-------------------------------------------
 # globals
 #-------------------------------------------
@@ -79,6 +78,8 @@ class Normalizer(BaseNormalizer):
         if legacy_maps=="default":
             legacy_maps=languages["bangla"].legacy_maps
 
+        self.complex_roots=languages["bangla"].complex_roots
+
         super(Normalizer,self).__init__(language="bangla",
                                         allow_english=allow_english,
                                         keep_legacy_symbols=keep_legacy_symbols,
@@ -106,7 +107,9 @@ class Normalizer(BaseNormalizer):
         # invalid folas 
         self.decomp_level_ops["NormalizeConjunctsDiacritics"]      =       self.cleanInvalidConjunctDiacritics
 
-        
+        # complex root cleanup 
+        self.decomp_level_ops["ComplexRootNormalization"]          =       self.convertComplexRoots
+
         
 #-------------------------word ops----------------------------------------------------------------------------- 
     def replaceAssamese(self):
@@ -287,7 +290,42 @@ class Normalizer(BaseNormalizer):
         self.safeop(self.fixOrdersForCC)
         self.safeop(self.cleanConnectotForJoFola)
         self.baseCompose()
+##------------------------------------------------------------------------------------------------------               
+    def checkComplexRoot(self,root):
+        formed=[]
+        formed_idx=[]
+        for i,c in enumerate(root):
+            if c !='্' and i not in formed_idx:
+                r=c
+                if i==len(root)-1:
+                    formed.append(r)
+                    continue
+                for j in range(i+2,len(root),2):
+                
+                    d=root[j]
+                    k=r+'্'+d
+                    if k not in self.complex_roots:
+                        formed.append(r)
+                        break
+                    else:
+                        if j!=len(root)-1:
+                            r=k
+                            formed_idx.append(j)
+                        else:
+                            r=k
+                            formed_idx.append(j)
+                            formed.append(k)
+        return "".join(formed)
+
         
+    
+    def convertComplexRoots(self):
+        self.constructComplexDecomp()
+        for idx,d in enumerate(self.decomp):
+            if d not in self.complex_roots and self.lang.connector in d:
+                self.decomp[idx]=self.checkComplexRoot(d) 
+        
+
 
 #-------------------------unicode ops-----------------------------------------------------------------------------               
     

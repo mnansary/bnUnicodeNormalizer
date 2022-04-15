@@ -67,58 +67,67 @@ with english: ASD 123
 
  
 
-# Initialization
-* The following parameters are available for initialization
+# Initialization: Bangla Normalizer
 
-```
-allow_english                   :   allow english letters numbers and punctuations [default:False]
-keep_legacy_symbols             :   legacy symbols will be considered as valid unicodes[default:False]
-                                    '৺':Isshar 
-                                    '৻':Ganda
-                                    'ঀ':Anji (not '৭')
-                                    'ঌ':li
-                                    'ৡ':dirgho li
-                                    'ঽ':Avagraha
-                                    'ৠ':Vocalic Rr (not 'ঋ')
-                                    '৲':rupi
-                                    '৴':currency numerator 1
-                                    '৵':currency numerator 2
-                                    '৶':currency numerator 3
-                                    '৷':currency numerator 4
-                                    '৸':currency numerator one less than the denominator
-                                    '৹':Currency Denominator Sixteen
-legacy_maps                     :   a dictionay for changing legacy symbols into a more used  unicode 
-                                    default_legacy_maps={'ঀ':'৭',
-                                                        'ঌ':'৯',
-                                                        'ৡ':'৯',
-                                                        '৵':'৯',
-                                                        '৻':'ৎ',
-                                                        'ৠ':'ঋ',
-                                                        'ঽ':'ই'}
-                                    
-                                    pass-   
-                                    * legacy_maps=None for keeping the legacy symbols as they are
-                                    * legacy_maps=custom dictionary which will map your desired legacy symbol to any of symbol you want
-                                        * the keys in the custiom dicts must belong to any of the legacy symbols
-                                        * the values in the custiom dicts must belong to either vowels,consonants of numbers  
-                                        vowels         =   ['অ', 'আ', 'ই', 'ঈ', 'উ', 'ঊ', 'ঋ', 'এ', 'ঐ', 'ও', 'ঔ']
-                                        consonants     =   ['ক', 'খ', 'গ', 'ঘ', 'ঙ', 'চ', 'ছ','জ', 'ঝ', 'ঞ', 
-                                                            'ট', 'ঠ', 'ড', 'ঢ', 'ণ', 'ত', 'থ', 'দ', 'ধ', 'ন', 
-                                                            'প', 'ফ', 'ব', 'ভ', 'ম', 'য', 'র', 'ল', 'শ', 'ষ', 
-                                                            'স', 'হ','ড়', 'ঢ়', 'য়','ৎ']    
-                                        numbers        =    ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯']
-                                        > for example you may want to map 'ঽ':Avagraha as 'হ' based on visual similiarity 
-                                            (default:'ই')
+```python
+'''
+    initialize a normalizer
+            args:
+                allow_english                   :   allow english letters numbers and punctuations [default:False]
+                keep_legacy_symbols             :   legacy symbols will be considered as valid unicodes[default:False]
+                                                    '৺':Isshar 
+                                                    '৻':Ganda
+                                                    'ঀ':Anji (not '৭')
+                                                    'ঌ':li
+                                                    'ৡ':dirgho li
+                                                    'ঽ':Avagraha
+                                                    'ৠ':Vocalic Rr (not 'ঋ')
+                                                    '৲':rupi
+                                                    '৴':currency numerator 1
+                                                    '৵':currency numerator 2
+                                                    '৶':currency numerator 3
+                                                    '৷':currency numerator 4
+                                                    '৸':currency numerator one less than the denominator
+                                                    '৹':Currency Denominator Sixteen
+                legacy_maps                     :   a dictionay for changing legacy symbols into a more used  unicode 
+                                                    a default legacy map is included in the language class as well,
+                                                    legacy_maps={'ঀ':'৭',
+                                                                'ঌ':'৯',
+                                                                'ৡ':'৯',
+                                                                '৵':'৯',
+                                                                '৻':'ৎ',
+                                                                'ৠ':'ঋ',
+                                                                'ঽ':'ই'}
+                                            
+                                                    pass-   
+                                                    * legacy_maps=None; for keeping the legacy symbols as they are
+                                                    * legacy_maps="default"; for using the default legacy map
+                                                    * legacy_maps=custom dictionary(type-dict) ; which will map your desired legacy symbol to any of symbol you want
+                                                        * the keys in the custiom dicts must belong to any of the legacy symbols
+                                                        * the values in the custiom dicts must belong to either vowels,consonants,numbers or diacritics  
+                                                        vowels         =   ['অ', 'আ', 'ই', 'ঈ', 'উ', 'ঊ', 'ঋ', 'এ', 'ঐ', 'ও', 'ঔ']
+                                                        consonants     =   ['ক', 'খ', 'গ', 'ঘ', 'ঙ', 'চ', 'ছ','জ', 'ঝ', 'ঞ', 
+                                                                            'ট', 'ঠ', 'ড', 'ঢ', 'ণ', 'ত', 'থ', 'দ', 'ধ', 'ন', 
+                                                                            'প', 'ফ', 'ব', 'ভ', 'ম', 'য', 'র', 'ল', 'শ', 'ষ', 
+                                                                            'স', 'হ','ড়', 'ঢ়', 'য়','ৎ']    
+                                                        numbers        =    ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯']
+                                                        vowel_diacritics       =   ['া', 'ি', 'ী', 'ু', 'ূ', 'ৃ', 'ে', 'ৈ', 'ো', 'ৌ']
+                                                        consonant_diacritics   =   ['ঁ', 'ং', 'ঃ']
+    
+                                                        > for example you may want to map 'ঽ':Avagraha as 'হ' based on visual similiarity 
+                                                            (default:'ই')
 
-** legacy contions: keep_legacy_symbols and legacy_maps operates as follows 
-    case-1) keep_legacy_symbols=True and legacy_maps=None
-        : all legacy symbols will be considered valid unicodes. None of them will be changed
-    case-2) keep_legacy_symbols=True and legacy_maps=valid dictionary example:{'ঀ':'ক'}
-        : all legacy symbols will be considered valid unicodes. Only 'ঀ' will be changed to 'ক' , others will be untouched
-    case-3) keep_legacy_symbols=False and legacy_maps=None
-        : all legacy symbols will be removed
-    case-4) keep_legacy_symbols=False and legacy_maps=valid dictionary example:{'ঽ':'ই','ৠ':'ঋ'}
-        : 'ঽ' will be changed to 'ই' and 'ৠ' will be changed to 'ঋ'. All other legacy symbols will be removed
+                ** legacy contions: keep_legacy_symbols and legacy_maps operates as follows 
+                    case-1) keep_legacy_symbols=True and legacy_maps=None
+                        : all legacy symbols will be considered valid unicodes. None of them will be changed
+                    case-2) keep_legacy_symbols=True and legacy_maps=valid dictionary example:{'ঀ':'ক'}
+                        : all legacy symbols will be considered valid unicodes. Only 'ঀ' will be changed to 'ক' , others will be untouched
+                    case-3) keep_legacy_symbols=False and legacy_maps=None
+                        : all legacy symbols will be removed
+                    case-4) keep_legacy_symbols=False and legacy_maps=valid dictionary example:{'ঽ':'ই','ৠ':'ঋ'}
+                        : 'ঽ' will be changed to 'ই' and 'ৠ' will be changed to 'ঋ'. All other legacy symbols will be removed
+'''
+
 ```
 
 ```python
@@ -154,39 +163,42 @@ print("case-4 default normalized text:  ",norm(text)["normalized"])
 ```
 case-1 normalized text:   ৺ , ৻ , ঀ , ঌ , ৡ , ঽ , ৠ , ৲ , ৴ , ৵ , ৶ , ৷ , ৸ , ৹
 case-2 normalized text:   ৺ , ৻ , ঀ , ই , ই , ই , ই , ৲ , ৴ , ই , ৶ , ৷ , ৸ , ৹
-case-2 default normalized text:   ৺ , ৎ , ৭ , ৯ , ৯ , ই , ঋ , ৲ , ৴ , ৯ , ৶ , ৷ , ৸ , ৹
-case-3 normalized text:   ,  ,  ,  ,  ,  ,  ,  ,  ,  ,  ,  ,  , 
-case-4 normalized text:   ,  ,  , ই , ই , ই , ই ,  ,  , ই ,  ,  ,  , 
-case-4 default normalized text:   , ৎ , ৭ , ৯ , ৯ , ই , ঋ ,  ,  , ৯ ,  ,  ,  , 
+case-2 default normalized text:   ৺ , ৻ , ঀ , ঌ , ৡ , ঽ , ৠ , ৲ , ৴ , ৵ , ৶ , ৷ , ৸ , ৹
+case-3 normalized text:    ,  ,  ,  ,  ,  ,  ,  ,  ,  ,  ,  ,  , 
+case-4 normalized text:    ,  ,  , ই , ই , ই , ই ,  ,  , ই ,  ,  ,  , 
+case-4 default normalized text:    ,  ,  ,  ,  ,  ,  ,  ,  ,  ,  ,  ,  , 
 ```
 
 # Operations
-* The following operations are currently available for normalization
+* base operations available for all indic languages:
+
+```python
+self.word_level_ops={"LegacySymbols"   :self.mapLegacySymbols,
+                    "BrokenDiacritics" :self.fixBrokenDiacritics}
+
+self.decomp_level_ops={"BrokenNukta"             :self.fixBrokenNukta,
+                    "InvalidUnicode"             :self.cleanInvalidUnicodes,
+                    "InvalidConnector"           :self.cleanInvalidConnector,
+                    "FixDiacritics"              :self.cleanDiacritics,
+                    "VowelDiacriticAfterVowel"   :self.cleanVowelDiacriticComingAfterVowel}
 ```
-"MapLegacySymbols",
-"NormalizeAssamese", 
-"BrokenDiacritics",
-"NonGylphUnicodes",
-"InvalidUnicodes",
-"InvalidEnds",
-"InvalidStarts",
-"NuktaUnicode",
-"InvalidHosonto",
-"InvalidToAndHosonto",
-"DoubleVowelDiacritics",
-"VowelDiacriticsComingAfterVowelsAndModifiers",
-"InvalidMultipleConsonantDiacritics"
+* extensions for bangla
+
+```python
+self.decomp_level_ops["ToAndHosontoNormalize"]             =       self.normalizeToandHosonto
+
+# invalid folas 
+self.decomp_level_ops["NormalizeConjunctsDiacritics"]      =       self.cleanInvalidConjunctDiacritics
+
+# complex root cleanup 
+self.decomp_level_ops["ComplexRootNormalization"]          =       self.convertComplexRoots
+
 ```
+
+# Normalization Problem Examples
 **In all examples (a) is the non-normalized form and (b) is the normalized form**
 
-* ```self.__mapLegacySymbols```: maps given legacy symbols based on initialized conditions by ```keep_legacy_symbols``` and ```legacy_maps``` variable
-* ```self.__replaceDiacritics```: fixes diacritic issues:
-```python
-'ে'+'া'-> 'ো'
-'ে'+'ৗ'->'ৌ'
-'অ'+ 'া'->'আ'
-'ৄ'->'ৃ'
-```
+* Broken diacritics:
 ``` 
 # Example-1: 
 (a)'আরো'==(b)'আরো' ->  False 
@@ -201,25 +213,7 @@ case-4 default normalized text:   , ৎ , ৭ , ৯ , ৯ , ই , ঋ ,  ,  , �
     (a) breaks as:['স', 'ং', 'স', '্', 'ক', 'ৄ', 'ত', 'ি']
     (b) breaks as:['স', 'ং', 'স', '্', 'ক', 'ৃ', 'ত', 'ি']
 ```
-
-* ```self.__replaceAssamese```: replaces assamese with bengali counterparts
-
-```python
-'ৰ'->'র'
-'ৱ'->'ব'
-```
-* ```self.__cleanNonGylphUnicodes```: removes valid but non-gylph unicodes
-
-```python
-['\u0984', '\u098d','\u098e','\u0991','\u0992','\u09a9','\u09b1','\u09b3','\u09b4','\u09b5',
-'\u09ba','\u09bb', '\u09c5','\u09c6','\u09c9','\u09ca','\u09cf','\u09d0','\u09d1','\u09d2',
-'\u09d3','\u09d4','\u09d5','\u09d6', '\u09d8','\u09d9','\u09da','\u09db','\u09de', '\u09e4',
-'\u09e5', 'ৼ','৽','৾','\u09ff']
-```
-* ```self.__cleanInvalidUnicodes```: removes all unicodes that are not valid based on initialization
-* ```self.__cleanInvalidEnds```: removes '্' if present at the end of the word.Since '্' is a connector for consonants and consonant diacritics, a valid word can not end with it.
-* ```self.__cleanInvalidStarts```:vowel diacritics,consonant diacritics,hosonto,nukta , no-space unicodes('\u200d','\u200c') can not be at the begining of a word.
-* ```self.__cleanNuktaUnicode```: if any one of 'য','ব','ড','ঢ' is followed by a nukta they are replaced by 'য়','র','ড়','ঢ়'
+* Nukta Normalization:
 
 ```        
 Example-1:
@@ -235,46 +229,39 @@ Example-3:
     (a) breaks as:['জ', '়', 'ন', '্', 'য']
     (b) breaks as:['জ', 'ন', '্', 'য']
 ``` 
+* Invalid hosonto
+```
+# Example-1:
+(a)দুই্টি==(b)দুইটি-->False
+    (a) breaks as ['দ', 'ু', 'ই', '্', 'ট', 'ি']
+    (b) breaks as ['দ', 'ু', 'ই', 'ট', 'ি']
+# Example-2:
+(a)এ্তে==(b)এতে-->False
+    (a) breaks as ['এ', '্', 'ত', 'ে']
+    (b) breaks as ['এ', 'ত', 'ে']
+# Example-3:
+(a)নেট্ওয়ার্ক==(b)নেটওয়ার্ক-->False
+    (a) breaks as ['ন', 'ে', 'ট', '্', 'ও', 'য়', 'া', 'র', '্', 'ক']
+    (b) breaks as ['ন', 'ে', 'ট', 'ও', 'য়', 'া', 'র', '্', 'ক']
+# Example-4:
+(a)এস্আই==(b)এসআই-->False
+    (a) breaks as ['এ', 'স', '্', 'আ', 'ই']
+    (b) breaks as ['এ', 'স', 'আ', 'ই']
+# Example-5: 
+(a)'চু্ক্তি'==(b)'চুক্তি' ->  False 
+    (a) breaks as:['চ', 'ু', '্', 'ক', '্', 'ত', 'ি']
+    (b) breaks as:['চ', 'ু','ক', '্', 'ত', 'ি']
+# Example-6:
+(a)'যু্ক্ত'==(b)'যুক্ত' ->   False
+    (a) breaks as:['য', 'ু', '্', 'ক', '্', 'ত']
+    (b) breaks as:['য', 'ু', 'ক', '্', 'ত']
+# Example-7:
+(a)'কিছু্ই'==(b)'কিছুই' ->   False
+    (a) breaks as:['ক', 'ি', 'ছ', 'ু', '্', 'ই']
+    (b) breaks as:['ক', 'ি', 'ছ', 'ু','ই']
+```
 
-
-* ```self.__cleanInvalidHosonto```: removes  
-    * hosontos that come after / before the vowels and the modifiers 
-
-    ```
-    # Example-1:
-    (a)দুই্টি==(b)দুইটি-->False
-        (a) breaks as ['দ', 'ু', 'ই', '্', 'ট', 'ি']
-        (b) breaks as ['দ', 'ু', 'ই', 'ট', 'ি']
-    # Example-2:
-    (a)এ্তে==(b)এতে-->False
-        (a) breaks as ['এ', '্', 'ত', 'ে']
-        (b) breaks as ['এ', 'ত', 'ে']
-    # Example-3:
-    (a)নেট্ওয়ার্ক==(b)নেটওয়ার্ক-->False
-        (a) breaks as ['ন', 'ে', 'ট', '্', 'ও', 'য়', 'া', 'র', '্', 'ক']
-        (b) breaks as ['ন', 'ে', 'ট', 'ও', 'য়', 'া', 'র', '্', 'ক']
-    # Example-4:
-    (a)এস্আই==(b)এসআই-->False
-        (a) breaks as ['এ', 'স', '্', 'আ', 'ই']
-        (b) breaks as ['এ', 'স', 'আ', 'ই']
-    ```
-    * if the hosonto is in between two vowel diacritics
-    ``` 
-    # Example-1: 
-    (a)'চু্ক্তি'==(b)'চুক্তি' ->  False 
-        (a) breaks as:['চ', 'ু', '্', 'ক', '্', 'ত', 'ি']
-        (b) breaks as:['চ', 'ু','ক', '্', 'ত', 'ি']
-    # Example-2:
-    (a)'যু্ক্ত'==(b)'যুক্ত' ->   False
-        (a) breaks as:['য', 'ু', '্', 'ক', '্', 'ত']
-        (b) breaks as:['য', 'ু', 'ক', '্', 'ত']
-    # Example-3:
-    (a)'কিছু্ই'==(b)'কিছুই' ->   False
-        (a) breaks as:['ক', 'ি', 'ছ', 'ু', '্', 'ই']
-        (b) breaks as:['ক', 'ি', 'ছ', 'ু','ই']
-    ```
-
-* ```self.__cleanInvalidToAndHosonto```: normalizes to+hosonto for ['ত','থ','ন','ব','ম','য','র']
+* To+hosonto: 
 
 ``` 
 # Example-1:
@@ -287,7 +274,7 @@ Example-3:
     (b) breaks as ['উ', 'ৎ', 'স']
 ```
 
-* ```self.__cleanDoubleVowelDiacritics```:removes unwanted doubles(consecutive doubles)
+* Unwanted doubles(consecutive doubles):
 
 ```
 # Example-1: 
@@ -308,7 +295,7 @@ Example-3:
     (b) breaks as:['আ', 'ম', 'া', 'ক', 'ো']
 ```
 
-* ```self.__cleanVowelDiacriticsComingAfterVowelsAndModifiers```:takes care of vowels and modifier followed by vowel diacritics
+* Vowwels and modifier followed by vowel diacritics:
 
 ```
 # Example-1:
@@ -325,7 +312,7 @@ Example-3:
     (b) breaks as ['এ', 'ক', 'ত', '্', 'র', 'ে']
 ```  
 
-* ```self.__cleanInvalidMultipleConsonantDiacritics```:cleans repeated folas
+* Repeated folas:
 
 ```
 # Example-1:
@@ -360,6 +347,7 @@ Example-3:
         self.assertEqual(norm('সং্যুক্তি')["normalized"],"সংযুক্তি")
         # Ending
         self.assertEqual(norm("অজানা্")["normalized"],"অজানা")
+
         #--------------------------------------------- insert your assertions here----------------------------------------
         '''
             ###  case: give a comment about your case
@@ -370,7 +358,7 @@ Example-3:
             
         '''
         # your case goes here-
-        
+            
     ```
     * perform the unit testing
     * make sure the unit test fails under true conditions    
