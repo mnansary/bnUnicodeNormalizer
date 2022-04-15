@@ -61,7 +61,7 @@ class bangla:
                                 'র্ষ্য','র্স','র্স','র্হ','র্হ্য','র্হ্য','ল্ক','ল্ক্য','ল্গ','ল্ট','ল্ড','ল্প','ল্ফ','ল্ব','ল্ভ','ল্ম','ল্য','ল্ল','শ্চ','শ্ছ',
                                 'শ্ন','শ্ব','শ্ম','শ্য','শ্র','শ্ল','ষ্ক','ষ্ক্র','ষ্ট','ষ্ট্য','ষ্ট্র','ষ্ঠ','ষ্ঠ্য','ষ্ণ','ষ্প','ষ্প্র','ষ্ফ','ষ্ব','ষ্ম','ষ্য',
                                 'স্ক','স্ক্র','স্খ','স্ট','স্ট্র','স্ত','স্ত্ব','স্ত্য','স্ত্র','স্থ','স্থ্য','স্ন','স্প','স্প্র','স্প্ল','স্ফ','স্ব','স্ম','স্য','স্র',
-                                'স্ল','হ্ণ','হ্ন','হ্ব','হ্ম','হ্য','হ্র','হ্ল',"ন্স"]
+                                'স্ল','হ্ণ','হ্ন','হ্ব','হ্ম','হ্য','হ্র','হ্ল',"ন্স",'র\u200d্য']
     
     # this is a customizeable map : this map is purely based on visual similiarity 
     legacy_maps             =   {'ঀ':'৭',
@@ -85,7 +85,7 @@ class bangla:
     #---------------------------------------------------normalization maps---------------------------------------------------------
     diacritics             =   sorted(vowel_diacritics+consonant_diacritics)
     used                   =   sorted(vowels+consonants+vowel_diacritics+consonant_diacritics+numbers)
-    valid                  =   sorted([' ']+used+punctuations+[connector])
+    valid                  =   sorted([' ']+used+punctuations+[connector]+["\u200d","\u200c"])
     complex_roots          =   sorted([' ']+vowels+consonants+numbers+punctuations+symbols+conjuncts) 
     # these unicodes can not start a word
     invalid_starts         =   sorted(diacritics+[connector])

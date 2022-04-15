@@ -211,12 +211,19 @@ class BaseNormalizer(object):
             if  d in self.lang.vowel_diacritics and self.decomp[idx-1] in self.lang.vowels:
                 # remove diacritic
                 self.decomp[idx]=None
+    def fixNoSpaceChar(self):
+        for idx,d in enumerate(self.decomp):
+            if idx<len(self.decomp)-1:
+                if self.decomp[idx+1] in ["\u200d","\u200c"]:
+                    self.decomp[idx]+=self.decomp[idx+1]
+                    self.decomp[idx+1]=None
 #----------------------composite ops-----------------------------------------------------------------------    
     def baseCompose(self):
         self.safeop(self.cleanInvalidUnicodes)
         self.safeop(self.cleanInvalidConnector)
         self.safeop(self.cleanDiacritics)
         self.safeop(self.cleanVowelDiacriticComingAfterVowel)
+        self.safeop(self.fixNoSpaceChar)
         
 
                 

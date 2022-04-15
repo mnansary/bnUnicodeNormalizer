@@ -332,6 +332,8 @@ class Normalizer(BaseNormalizer):
         
     
     def convertComplexRoots(self):
+        self.fixNoSpaceChar()
+        self.decomp=[x for x in self.decomp if x is not None] 
         self.constructComplexDecomp()
         for idx,d in enumerate(self.decomp):
             if d not in self.complex_roots and self.lang.connector in d:

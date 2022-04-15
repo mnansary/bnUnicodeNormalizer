@@ -42,3 +42,7 @@ Change Log
 -------------------
 - added conjucts
 - exception for english words
+
+0.0.11 (15/04/2022)
+-------------------
+- fixed no space char issue for bangla
