@@ -37,3 +37,8 @@ Change Log
 - language class
 - bangla extension
 - complex root normalization 
+
+0.0.10 (15/04/2022)
+-------------------
+- added conjucts
+- exception for english words

@@ -116,7 +116,19 @@ class Normalizer(BaseNormalizer):
         self.replaceMaps(self.assamese_map)
                         
 #-------------------------unicode ops-----------------------------------------------------------------------------               
-##------------------------------------------------------------------------------------------------------               
+##------------------------------------------------------------------------------------------------------    
+    def cleanInvalidConnector(self):
+        for idx,d in enumerate(self.decomp):
+            if idx<len(self.decomp)-1:
+                if d==self.lang.connector and self.decomp[idx+1]!="য" and self.decomp[idx-1]!='অ': # exception
+                    if self.decomp[idx-1] in self.lang.invalid_connectors  or self.decomp[idx+1] in self.lang.invalid_connectors:
+                        self.decomp[idx]=None 
+        # handle exception
+        self.decomp=[d for d in self.decomp if d is not None]
+        word="".join(self.decomp)
+        if 'অ্য' in word:
+            word=word.replace('অ্য',"অ্যা")
+        self.decomp=[ch for ch in word]
     
     def convertToAndHosonto(self):
         '''
