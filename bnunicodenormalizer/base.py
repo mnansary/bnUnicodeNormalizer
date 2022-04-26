@@ -200,11 +200,19 @@ class BaseNormalizer(object):
             if idx<len(self.decomp)-1:
                 if d in self.lang.consonant_diacritics and self.decomp[idx+1] in self.lang.vowel_diacritics:
                     self.swapIdxs(idx,idx+1)
-        
+
+    def cleanNonCharDiacs(self):
+        for idx,d in enumerate(self.decomp):
+            if idx>0:
+                if d in self.lang.diacritics and self.decomp[idx-1] in self.lang.non_chars:
+                    self.decomp[idx]=None
+
+
     def cleanDiacritics(self):
         self.safeop(self.cleanVowelDiacritics)
         self.safeop(self.cleanConsonantDiacritics)
         self.safeop(self.fixDiacriticOrder)
+        self.safeop(self.cleanNonCharDiacs)
     
     def cleanVowelDiacriticComingAfterVowel(self):
         for idx,d in enumerate(self.decomp):

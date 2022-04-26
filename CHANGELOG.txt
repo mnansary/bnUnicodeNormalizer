@@ -50,3 +50,7 @@ Change Log
 0.0.12 (26/04/2022)
 -------------------
 - fixed consonants orders 
+
+0.0.13 (26/04/2022)
+-------------------
+- fixed non char followed by diacritics 
