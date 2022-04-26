@@ -115,7 +115,23 @@ class Normalizer(BaseNormalizer):
     def replaceAssamese(self):
         self.replaceMaps(self.assamese_map)
                         
-#-------------------------unicode ops-----------------------------------------------------------------------------               
+#-------------------------unicode ops-----------------------------------------------------------------------------    
+    def cleanConsonantDiacritics(self):
+        # consonant diacritics
+        for idx,d in enumerate(self.decomp):
+            if idx<len(self.decomp)-1:
+                if d in self.lang.consonant_diacritics and self.decomp[idx+1] in self.lang.consonant_diacritics:
+                    # if they are same delete the current one
+                    if d==self.decomp[idx+1]:
+                        self.decomp[idx]=None
+                    elif d in ['ং', 'ঃ'] and self.decomp[idx+1]=='ঁ':
+                        self.swapIdxs(idx,idx+1)
+                    elif d=='ং' and self.decomp[idx+1]== 'ঃ':
+                        self.decomp[idx+1]=None
+                    elif d=='ঃ' and self.decomp[idx+1]== 'ং':
+                        self.decomp[idx+1]=None
+                    
+             
 ##------------------------------------------------------------------------------------------------------    
     def cleanInvalidConnector(self):
         for idx,d in enumerate(self.decomp):
