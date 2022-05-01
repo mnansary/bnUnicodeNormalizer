@@ -54,3 +54,8 @@ Change Log
 0.0.13 (26/04/2022)
 -------------------
 - fixed non char followed by diacritics 
+
+0.0.14 (01/05/2022)
+-------------------
+- word based normalization
+- encoding fix

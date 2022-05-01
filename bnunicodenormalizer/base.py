@@ -3,6 +3,8 @@
 @author:Bengali.AI
 """
 from __future__ import print_function
+
+from matplotlib.pyplot import text
         
 #-------------------------------------------
 from .langs import languages
@@ -236,11 +238,11 @@ class BaseNormalizer(object):
 
                 
 #----------------------entry-----------------------------------------------------------------------    
-    def __call__(self,text):
+    def __call__(self,word):
         '''
-            normalizes a given text
+            normalizes a given word
             args:
-                text    : the string to normalize
+                word    : the string to normalize
             returns: 
                 a dictionary- 
                 * "given" = provided text
@@ -259,10 +261,12 @@ class BaseNormalizer(object):
         #         * execute root level ops
 
         details=[]
-        
-        if not isinstance(text, str):
-            raise TypeError("The provided argument/ word is not a string")     
-        self.word=text
+        self.check=word
+        if not isinstance(self.check, str):
+            raise TypeError("The provided argument/ word is not a string")  
+        if len(self.check.strip().split(" "))>1:
+            raise ValueError(f"The provided string has hultiple words.Make sure no space exists in the middle of the text.probable word:{self.check.replace(' ','')}")
+        self.word=word
         #---------------------------------------------word ops-------------------------
         for op_id,op in self.word_level_ops.items():
             word_before_op=self.word[:]
@@ -290,5 +294,5 @@ class BaseNormalizer(object):
         self.safeop(self.baseCompose)
         self.word="".join([x for x in self.decomp if x is not None])     
         
-        return {"normalized":self.word,"given":text,"ops":details}
+        return {"normalized":self.word,"given":self.check,"ops":details}
         

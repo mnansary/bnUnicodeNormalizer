@@ -18,9 +18,9 @@ classifiers = [
  
 setup(
   name='bnunicodenormalizer',
-  version='0.0.13',
+  version='0.0.14',
   description='Bangla Unicode Normalization Toolkit',
-  long_description=open('README.md',encoding='utf-8').read() + '\n\n' + open('CHANGELOG.txt').read(),
+  long_description=open('README.md',encoding='utf-8').read() + '\n\n' + open('CHANGELOG.txt',encoding='utf-8').read(),
   long_description_content_type='text/markdown',
   url='https://github.com/mnansary/bnUnicodeNormalizer',  
   author='Bengali.AI',

@@ -1,5 +1,5 @@
 # bnUnicodeNormalizer
-Bangla Unicode Normalization
+Bangla Unicode Normalization for word normalization
 # install
 ```python
 pip install bnunicodenormalizer
@@ -13,28 +13,22 @@ from pprint import pprint
 # initialize
 bnorm=Normalizer()
 # normalize
-text='াটোবাকো গ্র্রামকে উুলু'
-result=bnorm(text)
-print(f"Non-norm:{text}; Norm:{result['normalized']}")
+word = 'াটোবাকো'
+result=bnorm(word)
+print(f"Non-norm:{word}; Norm:{result['normalized']}")
 print("--------------------------------------------------")
 pprint(result)
 ```
 > output 
 
 ```
-Non-norm:াটোবাকো গ্র্রামকে উুলু; Norm:টোবাকো গ্রামকে উলু
+Non-norm:াটোবাকো; Norm:টোবাকো
 --------------------------------------------------
-{'given': 'াটোবাকো গ্র্রামকে উুলু',
- 'normalized': 'টোবাকো গ্রামকে উলু',
- 'ops': [{'after': 'টোবাকো গ্র্রামকে উুলু',
-          'before': 'াটোবাকো গ্র্রামকে উুলু',
-          'operation': 'InvalidStarts'},
-         {'after': 'টোবাকো গ্র্রামকে উলু',
-          'before': 'টোবাকো গ্র্রামকে উুলু',
-          'operation': 'VowelDiacriticsComingAfterVowelsAndModifiers'},
-         {'after': 'টোবাকো গ্রামকে উলু',
-          'before': 'টোবাকো গ্র্রামকে উলু',
-          'operation': 'InvalidMultipleConsonantDiacritics'}]}
+{'given': 'াটোবাকো',
+ 'normalized': 'টোবাকো',
+ 'ops': [{'after': 'টোবাকো',
+          'before': 'াটোবাকো',
+          'operation': 'InvalidUnicode'}]}
 ```
 
 **call to the normalizer returns a dictionary in the following format**
@@ -52,17 +46,17 @@ Non-norm:াটোবাকো গ্র্রামকে উুলু; Norm:�
 ```python
 # initialize without english (default)
 norm=Normalizer()
-print("without english:",norm("ASD 123")["normalized"])
+print("without english:",norm("ASD123")["normalized"])
 # --> returns None
 norm=Normalizer(allow_english=True)
-print("with english:",norm("ASD 123")["normalized"])
+print("with english:",norm("ASD123")["normalized"])
 
 ```
 > output
 
 ```
 without english: None
-with english: ASD 123
+with english: ASD123
 ```
 
  
@@ -136,7 +130,7 @@ my_legacy_maps={'ঌ':'ই',
                 '৵':'ই',
                 'ৠ':'ই',
                 'ঽ':'ই'}
-text='৺ , ৻ , ঀ , ঌ , ৡ , ঽ , ৠ , ৲ , ৴ , ৵ , ৶ , ৷ , ৸ , ৹'
+text="৺,৻,ঀ,ঌ,ৡ,ঽ,ৠ,৲,৴,৵,৶,৷,৸,৹"
 # case 1
 norm=Normalizer(keep_legacy_symbols=True,legacy_maps=None)
 print("case-1 normalized text:  ",norm(text)["normalized"])
@@ -161,12 +155,12 @@ print("case-4 default normalized text:  ",norm(text)["normalized"])
 > output
 
 ```
-case-1 normalized text:   ৺ , ৻ , ঀ , ঌ , ৡ , ঽ , ৠ , ৲ , ৴ , ৵ , ৶ , ৷ , ৸ , ৹
-case-2 normalized text:   ৺ , ৻ , ঀ , ই , ই , ই , ই , ৲ , ৴ , ই , ৶ , ৷ , ৸ , ৹
-case-2 default normalized text:   ৺ , ৻ , ঀ , ঌ , ৡ , ঽ , ৠ , ৲ , ৴ , ৵ , ৶ , ৷ , ৸ , ৹
-case-3 normalized text:    ,  ,  ,  ,  ,  ,  ,  ,  ,  ,  ,  ,  , 
-case-4 normalized text:    ,  ,  , ই , ই , ই , ই ,  ,  , ই ,  ,  ,  , 
-case-4 default normalized text:    ,  ,  ,  ,  ,  ,  ,  ,  ,  ,  ,  ,  , 
+case-1 normalized text:   ৺,৻,ঀ,ঌ,ৡ,ঽ,ৠ,৲,৴,৵,৶,৷,৸,৹
+case-2 normalized text:   ৺,৻,ঀ,ই,ই,ই,ই,৲,৴,ই,৶,৷,৸,৹
+case-2 default normalized text:   ৺,৻,ঀ,ঌ,ৡ,ঽ,ৠ,৲,৴,৵,৶,৷,৸,৹
+case-3 normalized text:   ,,,,,,,,,,,,,
+case-4 normalized text:   ,,,ই,ই,ই,ই,,,ই,,,,
+case-4 default normalized text:   ,,,,,,,,,,,,, 
 ```
 
 # Operations
