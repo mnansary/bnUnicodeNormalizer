@@ -59,3 +59,7 @@ Change Log
 -------------------
 - word based normalization
 - encoding fix
+
+0.0.15 (02/05/2022)
+-------------------
+- import correction

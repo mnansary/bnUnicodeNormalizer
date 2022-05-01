@@ -3,9 +3,6 @@
 @author:Bengali.AI
 """
 from __future__ import print_function
-
-from matplotlib.pyplot import text
-        
 #-------------------------------------------
 from .langs import languages
         
