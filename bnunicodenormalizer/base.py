@@ -280,7 +280,7 @@ class BaseNormalizer(object):
             self.safeop(op)
             # check length
             if not self.checkDecomp():
-                return {"normalized":None,"given":text,"ops":details}
+                return {"normalized":None,"given":self.check,"ops":details}
             
             word_after_op="".join(self.decomp)
             if word_before_op!=word_after_op:
