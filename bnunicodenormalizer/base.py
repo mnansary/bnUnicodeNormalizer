@@ -153,6 +153,7 @@ class BaseNormalizer(object):
                         if self.decomp[cidx] in self.lang.nukta_map.keys():
                             self.decomp[cidx]=self.lang.nukta_map[self.decomp[cidx]]
                             self.decomp[idx]=None
+                            break
                     
     def cleanInvalidUnicodes(self):
         # clean starts
