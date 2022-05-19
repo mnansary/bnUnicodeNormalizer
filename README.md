@@ -358,7 +358,7 @@ Example-3:
     * make sure the unit test fails under true conditions    
 
 # ABOUT US
-* Authors: [Bengali.AI](https://bengali.ai/)
+* Authors: [Bengali.AI](https://bengali.ai/) in association with OCR Team , [APSIS Solutions Limited](https://apsissolutions.com/) 
 * **Cite Bengali.AI multipurpose grapheme dataset paper**
 ```bibtext
 @inproceedings{alam2021large,
