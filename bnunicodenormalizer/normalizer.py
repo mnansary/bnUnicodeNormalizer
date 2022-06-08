@@ -130,7 +130,29 @@ class Normalizer(BaseNormalizer):
                         self.decomp[idx+1]=None
                     elif d=='ঃ' and self.decomp[idx+1]== 'ং':
                         self.decomp[idx+1]=None
-                    
+    
+    def fixNoSpaceChar(self):
+        # replace
+        for idx,d in enumerate(self.decomp):
+            if idx==0 and self.decomp[idx] in ["\u200c","\u200d"]:
+                self.decomp[idx]=None
+            else:
+                if self.decomp[idx]=="\u200c":
+                    self.decomp[idx]="\u200d"   
+        self.decomp=[x for x in self.decomp if x is not None] 
+        # strict
+        for idx,d in enumerate(self.decomp):
+            if idx>0:
+                if self.decomp[idx]=="\u200d": 
+                    if self.decomp[idx-1]==self.lang.connector:
+                        self.decomp[idx]=None
+                        self.decomp[idx-1]=None
+                    elif self.decomp[idx-1]!='র':
+                        self.decomp[idx]=None
+                    else:
+                        self.decomp[idx-1]+=self.decomp[idx]
+                        self.decomp[idx]=None
+            
              
 ##------------------------------------------------------------------------------------------------------    
     def cleanInvalidConnector(self):
@@ -332,6 +354,7 @@ class Normalizer(BaseNormalizer):
                 
                     d=root[j]
                     k=r+'্'+d
+                    #if k==
                     if k not in self.complex_roots:
                         formed.append(r)
                         break

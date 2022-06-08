@@ -221,10 +221,12 @@ class BaseNormalizer(object):
                 self.decomp[idx]=None
     def fixNoSpaceChar(self):
         for idx,d in enumerate(self.decomp):
-            if idx<len(self.decomp)-1:
-                if self.decomp[idx+1] in ["\u200d","\u200c"]:
-                    self.decomp[idx]+=self.decomp[idx+1]
-                    self.decomp[idx+1]=None
+            if idx==0 and self.decomp[idx] in ["\u200c","\u200d"]:
+                self.decomp[idx]=None
+            else:
+                if self.decomp[idx]=="\u200c":
+                    self.decomp[idx]="\u200d"
+                    
 #----------------------composite ops-----------------------------------------------------------------------    
     def baseCompose(self):
         self.safeop(self.cleanInvalidUnicodes)
