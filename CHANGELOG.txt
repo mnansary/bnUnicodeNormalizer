@@ -75,3 +75,10 @@ Change Log
 0.0.18 (08/06/2022)
 -------------------
 - no space chars fix
+
+
+0.0.19 (15/06/2022)
+-------------------
+- no space chars further fix
+- base_bangla_compose to avoid false op flags
+- added foreign conjuncts

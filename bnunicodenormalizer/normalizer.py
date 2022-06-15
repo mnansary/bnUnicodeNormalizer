@@ -102,6 +102,7 @@ class Normalizer(BaseNormalizer):
         '''
         
         self.valid_consonants_after_to_and_hosonto      =       ['ত','থ','ন','ব','ম','য','র'] 
+        self.decomp_level_ops["base_bangla_compose"]    =       self.baseCompose
         self.decomp_level_ops["ToAndHosontoNormalize"]  =       self.normalizeToandHosonto
 
         # invalid folas 
@@ -150,9 +151,12 @@ class Normalizer(BaseNormalizer):
                     elif self.decomp[idx-1]!='র':
                         self.decomp[idx]=None
                     else:
-                        self.decomp[idx-1]+=self.decomp[idx]
-                        self.decomp[idx]=None
-            
+                        if idx>1 and self.decomp[idx-2]==self.lang.connector:
+                            self.decomp[idx]=None
+                        else:
+                            self.decomp[idx-1]+=self.decomp[idx]
+                            self.decomp[idx]=None
+                
              
 ##------------------------------------------------------------------------------------------------------    
     def cleanInvalidConnector(self):
