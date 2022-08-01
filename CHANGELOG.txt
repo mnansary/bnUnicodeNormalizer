@@ -87,3 +87,8 @@ Change Log
 0.0.20 (01/08/2022)
 -------------------
 - এ্যা replacement correction
+
+0.0.21 (01/08/2022)
+-------------------
+- "য","ব" + hosonto combination correction
+- added 'ব্ল্য' in conjuncts

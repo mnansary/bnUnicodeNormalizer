@@ -165,6 +165,11 @@ class Normalizer(BaseNormalizer):
                 if d==self.lang.connector and self.decomp[idx+1]!="য" and self.decomp[idx-1] not in ['অ','এ']: # exception
                     if self.decomp[idx-1] in self.lang.invalid_connectors  or self.decomp[idx+1] in self.lang.invalid_connectors:
                         self.decomp[idx]=None 
+                if d==self.lang.connector and self.decomp[idx-1]=="য" and self.decomp[idx+1]!="য":
+                    self.decomp[idx]=None
+                if d==self.lang.connector and self.decomp[idx-1]=="ব" and self.decomp[idx+1] not in ['জ', 'দ', 'ধ', 'ব', 'য', 'র', 'ল']:
+                    self.decomp[idx]=None
+
         # handle exception
         self.decomp=[d for d in self.decomp if d is not None]
         word="".join(self.decomp)
