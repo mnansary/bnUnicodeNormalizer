@@ -82,3 +82,8 @@ Change Log
 - no space chars further fix
 - base_bangla_compose to avoid false op flags
 - added foreign conjuncts
+
+
+0.0.20 (01/08/2022)
+-------------------
+- এ্যা replacement correction

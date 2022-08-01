@@ -162,12 +162,15 @@ class Normalizer(BaseNormalizer):
     def cleanInvalidConnector(self):
         for idx,d in enumerate(self.decomp):
             if idx<len(self.decomp)-1:
-                if d==self.lang.connector and self.decomp[idx+1]!="য" and self.decomp[idx-1]!='অ': # exception
+                if d==self.lang.connector and self.decomp[idx+1]!="য" and self.decomp[idx-1] not in ['অ','এ']: # exception
                     if self.decomp[idx-1] in self.lang.invalid_connectors  or self.decomp[idx+1] in self.lang.invalid_connectors:
                         self.decomp[idx]=None 
         # handle exception
         self.decomp=[d for d in self.decomp if d is not None]
         word="".join(self.decomp)
+        
+        if "এ্যা" in word:
+            word=word.replace("এ্যা","অ্যা")
         if 'অ্য' in word:
             word=word.replace('অ্য',"অ্যা")
         self.decomp=[ch for ch in word]
