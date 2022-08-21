@@ -153,6 +153,8 @@ class Normalizer(BaseNormalizer):
                     else:
                         if idx>1 and self.decomp[idx-2]==self.lang.connector:
                             self.decomp[idx]=None
+                        elif idx<len(self.decomp)-2 and self.decomp[idx+2]!="য" and self.decomp[idx+1]!=self.lang.connector:
+                            self.decomp[idx]=None
                         else:
                             self.decomp[idx-1]+=self.decomp[idx]
                             self.decomp[idx]=None

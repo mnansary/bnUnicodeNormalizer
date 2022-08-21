@@ -92,3 +92,7 @@ Change Log
 -------------------
 - "য","ব" + hosonto combination correction
 - added 'ব্ল্য' in conjuncts
+
+0.0.22 (22/08/2022)
+-------------------
+- \u200d combination limiting
