@@ -144,18 +144,29 @@ class Normalizer(BaseNormalizer):
         # strict
         for idx,d in enumerate(self.decomp):
             if idx>0:
-                if self.decomp[idx]=="\u200d": 
+                if self.decomp[idx]=="\u200d":
+                    # last one
+                    if idx==len(self.decomp)-1:
+                        self.decomp[idx]=None 
+                    # if previous one is a connector
                     if self.decomp[idx-1]==self.lang.connector:
                         self.decomp[idx]=None
                         self.decomp[idx-1]=None
+                    # if previous one is not 'র'
                     elif self.decomp[idx-1]!='র':
                         self.decomp[idx]=None
                     else:
+                        # if prev='র' and the prev-1 is not a connector
                         if idx>1 and self.decomp[idx-2]==self.lang.connector:
                             self.decomp[idx]=None
+                        # if the next is not a connector
+                        elif idx<len(self.decomp)-1 and self.decomp[idx+1]!=self.lang.connector:
+                            self.decomp[idx]=None
+                        # if the next one to connector is not "য"
                         elif idx<len(self.decomp)-2 and self.decomp[idx+2]!="য" and self.decomp[idx+1]!=self.lang.connector:
                             self.decomp[idx]=None
                         else:
+                            # the actual allowed case
                             self.decomp[idx-1]+=self.decomp[idx]
                             self.decomp[idx]=None
                 

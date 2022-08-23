@@ -96,3 +96,7 @@ Change Log
 0.0.22 (22/08/2022)
 -------------------
 - \u200d combination limiting
+
+0.0.23 (23/08/2022)
+-------------------
+- \u200d condition change
