@@ -104,3 +104,8 @@ Change Log
 0.0.24 (26/08/2022)
 -------------------
 - \u200d error handling
+
+0.0.25 (10/09/22)
+-------------------
+- removed unnecessary operations: fixRefOrder,fixOrdersForCC
+- added conjuncts: 'র্ন্ত','ঠ্য','ভ্ল'

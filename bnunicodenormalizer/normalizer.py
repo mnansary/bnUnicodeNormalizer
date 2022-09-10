@@ -311,40 +311,6 @@ class Normalizer(BaseNormalizer):
                     self.decomp[idx]=None
                     self.decomp[idx+1]=None
         
-    def fixRefOrder(self):
-        for idx,d in enumerate(self.decomp):
-            if idx<len(self.decomp)-3:
-                if  d=='র' and self.decomp[idx-1]==self.lang.connector\
-                    and self.decomp[idx+2]=='র' and self.decomp[idx+3]== self.lang.connector:
-                    self.decomp[idx]=None
-                    self.decomp[idx+1]=None
-        
-    def fixOrdersForCC(self):
-        self.constructComplexDecomp()
-        for idx,d in enumerate(self.decomp):
-            if self.lang.connector in d:
-                if d[0]=='র' and d[1]==self.lang.connector:
-                    start=['র',self.lang.connector]
-                    d=d[2:]
-                else:
-                    start=[]
-                
-                curr=[c for c in d if c!=self.lang.connector] 
-                # recreate order
-                order= ['ব','র','য']
-                order=[k for k in order if k in curr]
-                order=[c for c in curr if c not in order]+order
-                # sort
-                curr=sorted(curr,key=order.index)
-
-                new=[]
-                for i in range(len(curr)):
-                    new.append(curr[i])
-                    new.append(self.lang.connector)
-                new=new[:-1]
-                self.decomp[idx]="".join(start+new)
-        
-
     def cleanConnectotForJoFola(self):
             for idx,d in enumerate(self.decomp):
                 if idx<len(self.decomp)-2:
@@ -364,8 +330,10 @@ class Normalizer(BaseNormalizer):
         self.safeop(self.fixTypoForJoFola)
         self.safeop(self.cleanDoubleCC)
         self.safeop(self.cleanDoubleRef)
-        self.safeop(self.fixRefOrder)
-        self.safeop(self.fixOrdersForCC)
+        # self.safeop(self.fixRefOrder)
+        # print("".join(self.decomp))
+        # #self.safeop(self.fixOrdersForCC)
+        #print("".join(self.decomp))
         self.safeop(self.cleanConnectotForJoFola)
         self.baseCompose()
 ##------------------------------------------------------------------------------------------------------               
