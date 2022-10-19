@@ -490,7 +490,7 @@ class malayalam:
             * khondo to
              
     '''
-    invalid_connectors     =    sorted(invalid_starts+vowels+['ৎ']+numbers+punctuations)       
+    #invalid_connectors     =    sorted(invalid_starts+vowels+['ৎ']+numbers+punctuations)       
         
     
 #--------------------------------------------------------------------------------------------------------------------------------------------
