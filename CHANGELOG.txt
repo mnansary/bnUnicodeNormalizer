@@ -109,3 +109,8 @@ Change Log
 -------------------
 - removed unnecessary operations: fixRefOrder,fixOrdersForCC
 - added conjuncts: 'র্ন্ত','ঠ্য','ভ্ল'
+
+0.1.0 (20/10/22)
+-------------------
+- added indic parser
+- fixed language class

@@ -357,6 +357,27 @@ Example-3:
     * perform the unit testing
     * make sure the unit test fails under true conditions    
 
+# Indic Base Normalizer
+* to use indic language normalizer for 'devanagari', 'gujarati', 'odiya', 'tamil', 'panjabi', 'malayalam'
+
+```python
+from bnunicodenormalizer import IndicNormalizer
+norm=IndicNormalizer('devanagari')
+```
+* initialization
+
+```python
+'''
+    initialize a normalizer
+    args:
+        language                        :   language identifier from 'devanagari', 'gujarati', 'odiya', 'tamil', 'panjabi', 'malayalam'
+        allow_english                   :   allow english letters numbers and punctuations [default:False]
+                
+'''        
+        
+```
+
+
 # ABOUT US
 * Authors: [Bengali.AI](https://bengali.ai/) in association with OCR Team , [APSIS Solutions Limited](https://apsissolutions.com/) 
 * **Cite Bengali.AI multipurpose grapheme dataset paper**
