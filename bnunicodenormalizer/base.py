@@ -5,6 +5,7 @@
 from __future__ import print_function
 #-------------------------------------------
 from .langs import languages
+from bnunicodenormalizer import langs
         
 #-------------------------------------------
 # cleaner class
@@ -219,13 +220,20 @@ class BaseNormalizer(object):
             if  d in self.lang.vowel_diacritics and self.decomp[idx-1] in self.lang.vowels:
                 # remove diacritic
                 self.decomp[idx]=None
+    
     def fixNoSpaceChar(self):
         for idx,d in enumerate(self.decomp):
             if idx==0 and self.decomp[idx] in ["\u200c","\u200d"]:
                 self.decomp[idx]=None
             else:
-                if self.decomp[idx]=="\u200c":
-                    self.decomp[idx]="\u200d"
+                if idx<len(self.decomp)-1 and self.decomp[idx] in ["\u200c","\u200d"] and self.decomp[idx+1] in [self.lang.connector]+["\u200c","\u200d"]:
+                    # if the next char is either connector or is repeated
+                    self.decomp[idx+1]=None
+                if idx>0 and self.decomp[idx] in ["\u200c","\u200d"] and self.decomp[idx-1] in [None]+["\u200c","\u200d"]:
+                    # if the previous char is None
+                    self.decomp[idx]=None
+
+                    
                     
 #----------------------composite ops-----------------------------------------------------------------------    
     def baseCompose(self):

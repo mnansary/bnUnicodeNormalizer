@@ -114,3 +114,9 @@ Change Log
 -------------------
 - added indic parser
 - fixed language class
+
+0.1.1 (21/10/22)
+-------------------
+- added nukta and diacritic maps for indics 
+- cleaned conjucts for now 
+- fixed issues with no-space and connector
