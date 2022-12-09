@@ -120,3 +120,7 @@ Change Log
 - added nukta and diacritic maps for indics 
 - cleaned conjucts for now 
 - fixed issues with no-space and connector
+
+0.1.2 (10/12/22)
+-------------------
+- allow halant ending for indic language except bangla
