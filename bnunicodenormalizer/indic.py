@@ -35,12 +35,16 @@ class IndicNormalizer(BaseNormalizer):
         # clean endings
         
         # if the last one is a connector (allow halant ending)
-        if self.decomp[-1] == self.lang.connector: 
-            self.decomp=self.decomp[:-1]
-            add_con=True
-        else:
+        try:
+            if self.decomp[-1] == self.lang.connector: 
+                self.decomp=self.decomp[:-1]
+                add_con=True
+            else:
+                add_con=False
+        except Exception as e:
             add_con=False
-        
+
+            
         while self.checkDecomp() and self.decomp[-1] == self.lang.connector:
             self.decomp=self.decomp[:-1]
         

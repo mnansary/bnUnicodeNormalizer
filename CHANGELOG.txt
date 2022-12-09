@@ -124,3 +124,7 @@ Change Log
 0.1.2 (10/12/22)
 -------------------
 - allow halant ending for indic language except bangla
+
+0.1.2 (10/12/22)
+-------------------
+- broken char break cases for halant 
