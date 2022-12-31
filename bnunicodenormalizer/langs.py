@@ -438,12 +438,12 @@ class panjabi:
                                 'ਸ':'ਸ਼',
                                 'ਫ':'ਫ਼'
                                 }
-    diacritic_map          =   {'ੇੋ': " 'ੌ'",
-                                'ਾੇ': " 'ੀ'",
-                                'ਾੋ': " 'ੀ'",
-                                'ਅੈ': " 'ਐ'",
-                                'ਅੌ': " 'ਔ'",
-                                'ਅਾ': " 'ਆ'"}
+    diacritic_map          =   {'ੇੋ': 'ੌ',
+                                'ਾੇ': 'ੀ',
+                                'ਾੋ': 'ੀ',
+                                'ਅੈ': 'ਐ',
+                                'ਅੌ': 'ਔ',
+                                'ਅਾ': 'ਆ'}
     #---------------------------------------------------normalization maps---------------------------------------------------------
     diacritics             =   sorted(vowel_diacritics+consonant_diacritics)
     used                   =   sorted(vowels+consonants+vowel_diacritics+consonant_diacritics+numbers)

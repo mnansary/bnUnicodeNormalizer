@@ -132,3 +132,7 @@ Change Log
 0.1.4 (01/01/23)
 -------------------
 - added sylhetinagri 
+
+0.1.5 (01/01/23)
+-------------------
+- cleaned panjabi double quotes in diac map 
