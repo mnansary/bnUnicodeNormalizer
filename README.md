@@ -358,7 +358,7 @@ Example-3:
     * make sure the unit test fails under true conditions    
 
 # Indic Base Normalizer
-* to use indic language normalizer for 'devanagari', 'gujarati', 'odiya', 'tamil', 'panjabi', 'malayalam'
+* to use indic language normalizer for 'devanagari', 'gujarati', 'odiya', 'tamil', 'panjabi', 'malayalam','sylhetinagri'
 
 ```python
 from bnunicodenormalizer import IndicNormalizer
@@ -370,7 +370,7 @@ norm=IndicNormalizer('devanagari')
 '''
     initialize a normalizer
     args:
-        language                        :   language identifier from 'devanagari', 'gujarati', 'odiya', 'tamil', 'panjabi', 'malayalam'
+        language                        :   language identifier from 'devanagari', 'gujarati', 'odiya', 'tamil', 'panjabi', 'malayalam','sylhetinagri'
         allow_english                   :   allow english letters numbers and punctuations [default:False]
                 
 '''        

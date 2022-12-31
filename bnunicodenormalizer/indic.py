@@ -20,7 +20,7 @@ class IndicNormalizer(BaseNormalizer):
         '''
             initialize a normalizer
             args:
-                language                        :   language identifier from 'devanagari', 'gujarati', 'odiya', 'tamil', 'panjabi', 'malayalam'
+                language                        :   language identifier from 'devanagari', 'gujarati', 'odiya', 'tamil', 'panjabi', 'malayalam','sylhetinagri'
                 allow_english                   :   allow english letters numbers and punctuations [default:False]
                 
         '''        

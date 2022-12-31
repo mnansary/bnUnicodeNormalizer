@@ -525,7 +525,54 @@ class malayalam:
     invalid_connectors     =    sorted(invalid_starts+vowels+numbers+punctuations)     
         
         
-    
+class sylhetinagri:
+    '''
+        * according to asif sushmit
+    '''
+    #-----------------------------------------------------basic-------------------------------------------------------------------
+    iden                   =   "sylhetinagri"
+    nukta                  =   '' #done
+    vowels                 =   ['ꠀ', 'ꠁ', 'ꠃ', 'ꠄ', 'ꠅ'] #done
+    consonants             =   ['ꠇ', 'ꠈ', 'ꠉ', 'ꠊ',
+                                 'ꠌ', 'ꠍ', 'ꠎ', 'ꠏ',
+                                 'ꠐ', 'ꠑ', 'ꠒ', 'ꠓ',
+                                 'ꠔ', 'ꠕ', 'ꠖ', 'ꠗ', 'ꠘ',
+                                 'ꠙ', 'ꠚ', 'ꠛ', 'ꠜ', 'ꠝ',
+                                 'ꠞ', 'ꠟ', 'ꠠ', 'ꠡ', 'ꠢ'] #done
+    vowel_diacritics       =   ['ꠣ', 'ꠤ', 'ꠥ', 'ꠦ', 'ꠧ'] #done
+    consonant_diacritics   =   ['ꠋ', 'ꠂ', '꠬'] #done
+    numbers                =   ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '०', '१', '२', '३', '४', '५', '६', '७', '८', '९']
+    punctuations           =   ['।', '॥', ':', ';', '!', '—', '?', 'ऽ', '.', ',']
+    symbols                =   ['꠨', '꠩', '꠪', '꠫']
+    connector              =   '꠆' #done
+    non_gylph_unicodes     =   []
+    legacy_symbols         =   []
+    non_chars              =   numbers+punctuations+symbols+non_gylph_unicodes+legacy_symbols
+    #-----------------------------------------------------basic-------------------------------------------------------------------
+    #---------------------------------------------------changeables----------------------------------------------------------------
+    conjuncts              =   []
+    # this is a customizeable map : this map is purely based on visual similiarity
+    legacy_maps            =   {}
+    #---------------------------------------------------changeables----------------------------------------------------------------
+    #---------------------------------------------------normalization maps---------------------------------------------------------
+    nukta_map              =   {}
+    diacritic_map          =   {}
+    #---------------------------------------------------normalization maps---------------------------------------------------------
+    diacritics             =   sorted(vowel_diacritics+consonant_diacritics)
+    used                   =   sorted(vowels+consonants+vowel_diacritics+consonant_diacritics+numbers)
+    valid                  =   sorted([' ']+used+punctuations+[connector]+["\u200d","\u200c"])
+    complex_roots          =   sorted([' ']+vowels+consonants+numbers+punctuations+symbols+conjuncts)
+    # these unicodes can not start a word
+    invalid_starts         =   sorted(diacritics+[connector])
+    # invalid connector cases
+    '''
+        a connector can not be sorrounded by/ can not come after or before:
+            * the vowels
+            * the diacritics
+            * another connector [double consecutive hosonto]
+    '''
+    invalid_connectors     =    sorted(invalid_starts+vowels+numbers+punctuations)
+
 #--------------------------------------------------------------------------------------------------------------------------------------------
 #############################################################################################################################################
 #--------------------------------------------------------------------------------------------------------------------------------------------
@@ -538,3 +585,4 @@ languages["odiya"]      =odiya
 languages["tamil"]      =tamil
 languages["panjabi"]    =panjabi
 languages["malayalam"]  =malayalam
+languages["sylhetinagri"]=sylhetinagri

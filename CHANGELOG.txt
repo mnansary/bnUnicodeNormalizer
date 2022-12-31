@@ -125,6 +125,10 @@ Change Log
 -------------------
 - allow halant ending for indic language except bangla
 
-0.1.2 (10/12/22)
+0.1.3 (10/12/22)
 -------------------
 - broken char break cases for halant 
+
+0.1.4 (01/01/23)
+-------------------
+- added sylhetinagri 
