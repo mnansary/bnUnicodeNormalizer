@@ -556,7 +556,8 @@ class sylhetinagri:
     #---------------------------------------------------changeables----------------------------------------------------------------
     #---------------------------------------------------normalization maps---------------------------------------------------------
     nukta_map              =   {}
-    diacritic_map          =   {}
+    diacritic_map           =   {'ꠦꠣ':'ꠧ',
+                                'ꠣꠦ':'ꠧ'}
     #---------------------------------------------------normalization maps---------------------------------------------------------
     diacritics             =   sorted(vowel_diacritics+consonant_diacritics)
     used                   =   sorted(vowels+consonants+vowel_diacritics+consonant_diacritics+numbers)
