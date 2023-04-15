@@ -136,3 +136,7 @@ Change Log
 0.1.5 (01/01/23)
 -------------------
 - cleaned panjabi double quotes in diac map 
+
+0.1.6 (15/04/23)
+-------------------
+- added bangla punctuations 

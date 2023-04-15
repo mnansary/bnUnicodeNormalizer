@@ -86,12 +86,19 @@ class Normalizer(BaseNormalizer):
                                         legacy_maps=legacy_maps)
         #-------------------------------------------------extended ops----------------------
         # assemese 
-        self.assamese_map={'ৰ':'র','ৱ':'ব'}
+        self.assamese_map                               =       {'ৰ':'র','ৱ':'ব'}
         self.word_level_ops["AssameseReplacement"]      =       self.replaceAssamese
+        # punctuations
+        self.punctuations_map                           =   {'"': '"' ,
+                                                            '৷' : '।',
+                                                            '–' : '-',
+                                                            "'" : "'",
+                                                            "'" : "'"}
+        self.word_level_ops["PunctuationReplacement"]   =       self.replacePunctuations
         
         # to+hosonto case
         '''
-
+n
             case-1:     if 'ত'+hosonto is followed by anything other than a consonant the word is an invalid word
 
             case-2:     The ত্‍ symbol which should be replaced by a 'ৎ' occurs for all consonants except:ত,থ,ন,ব,ম,য,র
@@ -115,6 +122,9 @@ class Normalizer(BaseNormalizer):
 #-------------------------word ops----------------------------------------------------------------------------- 
     def replaceAssamese(self):
         self.replaceMaps(self.assamese_map)
+    
+    def replacePunctuations(self):
+        self.replaceMaps(self.punctuations_map)
                         
 #-------------------------unicode ops-----------------------------------------------------------------------------    
     def cleanConsonantDiacritics(self):
