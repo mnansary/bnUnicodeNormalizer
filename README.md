@@ -382,12 +382,12 @@ norm=IndicNormalizer('devanagari')
 * Authors: [Bengali.AI](https://bengali.ai/) in association with OCR Team , [APSIS Solutions Limited](https://apsissolutions.com/) 
 * **Cite Bengali.AI multipurpose grapheme dataset paper**
 ```bibtext
-@inproceedings{alam2021large,
-  title={A large multi-target dataset of common bengali handwritten graphemes},
-  author={Alam, Samiul and Reasat, Tahsin and Sushmit, Asif Shahriyar and Siddique, Sadi Mohammad and Rahman, Fuad and Hasan, Mahady and Humayun, Ahmed Imtiaz},
-  booktitle={International Conference on Document Analysis and Recognition},
-  pages={383--398},
-  year={2021},
-  organization={Springer}
+@misc{ansary2023abugida,
+      title={Abugida Normalizer and Parser for Unicode texts}, 
+      author={Nazmuddoha Ansary and Quazi Adibur Rahman Adib and Tahsin Reasat and Sazia Mehnaz and Asif Shahriyar Sushmit and Ahmed Imtiaz Humayun and Mohammad Mamun Or Rashid and Farig Sadeque},
+      year={2023},
+      eprint={2306.01743},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL}
 }
 ```
