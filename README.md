@@ -380,14 +380,32 @@ norm=IndicNormalizer('devanagari')
 
 # ABOUT US
 * Authors: [Bengali.AI](https://bengali.ai/) in association with OCR Team , [APSIS Solutions Limited](https://apsissolutions.com/) 
-* **Cite Bengali.AI multipurpose grapheme dataset paper**
+* **Cite Our Work**
 ```bibtext
-@misc{ansary2023abugida,
-      title={Abugida Normalizer and Parser for Unicode texts}, 
-      author={Nazmuddoha Ansary and Quazi Adibur Rahman Adib and Tahsin Reasat and Sazia Mehnaz and Asif Shahriyar Sushmit and Ahmed Imtiaz Humayun and Mohammad Mamun Or Rashid and Farig Sadeque},
-      year={2023},
-      eprint={2306.01743},
-      archivePrefix={arXiv},
-      primaryClass={cs.CL}
+@inproceedings{ansary-etal-2024-unicode-normalization,
+    title = "{U}nicode Normalization and Grapheme Parsing of {I}ndic Languages",
+    author = "Ansary, Nazmuddoha  and
+      Adib, Quazi Adibur Rahman  and
+      Reasat, Tahsin  and
+      Sushmit, Asif Shahriyar  and
+      Humayun, Ahmed Imtiaz  and
+      Mehnaz, Sazia  and
+      Fatema, Kanij  and
+      Rashid, Mohammad Mamun Or  and
+      Sadeque, Farig",
+    editor = "Calzolari, Nicoletta  and
+      Kan, Min-Yen  and
+      Hoste, Veronique  and
+      Lenci, Alessandro  and
+      Sakti, Sakriani  and
+      Xue, Nianwen",
+    booktitle = "Proceedings of the 2024 Joint International Conference on Computational Linguistics, Language Resources and Evaluation (LREC-COLING 2024)",
+    month = may,
+    year = "2024",
+    address = "Torino, Italia",
+    publisher = "ELRA and ICCL",
+    url = "https://aclanthology.org/2024.lrec-main.1479",
+    pages = "17019--17030",
+    abstract = "Writing systems of Indic languages have orthographic syllables, also known as complex graphemes, as unique horizontal units. A prominent feature of these languages is these complex grapheme units that comprise consonants/consonant conjuncts, vowel diacritics, and consonant diacritics, which, together make a unique Language. Unicode-based writing schemes of these languages often disregard this feature of these languages and encode words as linear sequences of Unicode characters using an intricate scheme of connector characters and font interpreters. Due to this way of using a few dozen Unicode glyphs to write thousands of different unique glyphs (complex graphemes), there are serious ambiguities that lead to malformed words. In this paper, we are proposing two libraries: i) a normalizer for normalizing inconsistencies caused by a Unicode-based encoding scheme for Indic languages and ii) a grapheme parser for Abugida text. It deconstructs words into visually distinct orthographic syllables or complex graphemes and their constituents. Our proposed normalizer is a more efficient and effective tool than the previously used IndicNLP normalizer. Moreover, our parser and normalizer are also suitable tools for general Abugida text processing as they performed well in our robust word-based and NLP experiments. We report the pipeline for the scripts of 7 languages in this work and develop the framework for the integration of more scripts.",
 }
 ```

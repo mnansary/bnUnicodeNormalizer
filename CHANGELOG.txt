@@ -140,3 +140,7 @@ Change Log
 0.1.6 (15/04/23)
 -------------------
 - added bangla punctuations 
+
+0.1.7 (26/05/24)
+-------------------
+- added proper bibtex 
